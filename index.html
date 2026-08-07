@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semiconductor Portfolio — Silicon Substrate</title>
+<title>Mageto Nyakoni — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -33,9 +33,7 @@
   --glass-bg:       oklch(14% 0.015 260 / 0.7);
   --glass-border:   oklch(40% 0.03 240 / 0.3);
 
-  --wafer-size: min(72vw, 72vh, 680px);
-  --die-size: 28px;
-  --die-gap: 2px;
+  --cw-cell: 30px;
 }
 
 /* ═══════════════════════════════════════════
@@ -51,7 +49,6 @@ body {
   font-family: 'Space Grotesk', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  cursor: crosshair;
 }
 
 /* Subtle grain overlay */
@@ -101,13 +98,9 @@ nav {
 .nav-logo {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  font-weight: 400;
-  color: var(--text-mono);
+  font-weight: 500;
+  color: var(--text-primary);
   letter-spacing: 0.08em;
-}
-
-.nav-logo span {
-  color: var(--accent-cyan);
 }
 
 .nav-status {
@@ -119,47 +112,15 @@ nav {
   font-size: 10px;
   color: var(--text-secondary);
   letter-spacing: 0.05em;
-}
-
-.nav-stat strong {
-  color: var(--text-mono);
-}
-
-/* ── Engineering status bar (right side of nav) ── */
-.nav-deploy-status {
-  display: flex; align-items: center; gap: 10px;
-  padding: 5px 12px;
-  border: 0.5px solid oklch(35% 0.06 160 / 0.5);
-  border-radius: 3px;
-  background: oklch(14% 0.04 160 / 0.3);
-}
-
-.nav-deploy-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  color: oklch(72% 0.18 155);
-  letter-spacing: 0.10em;
-  white-space: nowrap;
-}
-
-.deploy-live-dot {
-  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
-  background: oklch(72% 0.20 145);
-  box-shadow: 0 0 6px oklch(72% 0.20 145);
-  animation: live-blink 1.1s step-end infinite;
-}
-
-@keyframes live-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  display: flex; align-items: center;
 }
 
 .status-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent-cyan);
-  box-shadow: 0 0 8px var(--accent-cyan);
+  background: var(--accent-teal);
+  box-shadow: 0 0 8px var(--accent-teal);
   animation: pulse 2s ease-in-out infinite;
-  display: inline-block; margin-right: 6px;
+  display: inline-block; margin-right: 8px;
 }
 
 @keyframes pulse {
@@ -174,157 +135,192 @@ nav {
   flex: 1;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 100px 40px 60px;
+  padding: 120px 40px 60px;
   position: relative;
   gap: 0;
 }
 
-.hero-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 400;
-  color: var(--text-secondary);
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-bottom: 32px;
+/* ═══════════════════════════════════════════
+   CROSSWORD SECTION
+═══════════════════════════════════════════ */
+.crossword-wrapper-section {
+  padding: 60px 40px 80px;
+  border-top: 0.5px solid var(--line-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* ═══════════════════════════════════════════
-   WAFER STAGE
-═══════════════════════════════════════════ */
-.wafer-stage {
+.crossword-section {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.crossword-scroll {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+}
+
+.crossword-grid {
+  display: grid;
+  gap: 2px;
+  background: var(--line-subtle);
+  border: 0.5px solid var(--line-mid);
+  border-radius: 6px;
+  padding: 3px;
+  width: max-content;
+  box-shadow: 0 20px 60px oklch(0% 0 0 / 0.35);
+}
+
+.cw-cell {
+  width: var(--cw-cell); height: var(--cw-cell);
+  background: var(--bg-elevated);
   position: relative;
-  width: var(--wafer-size);
-  height: var(--wafer-size);
+  border-radius: 1px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.cw-cell.highlight {
+  background: oklch(24% 0.05 200);
+  box-shadow: inset 0 0 0 1px var(--accent-teal);
+}
+
+.cw-cell.selected {
+  background: oklch(20% 0.035 200);
+}
+
+.cw-cell.active {
+  background: oklch(27% 0.06 200);
+  box-shadow: inset 0 0 0 2px var(--accent-teal);
+}
+
+.cw-num {
+  position: absolute; top: 1px; left: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px; font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cw-input {
+  width: 100%; height: 100%;
+  background: transparent;
+  border: none; outline: none;
+  padding: 0;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(var(--cw-cell) * 0.5);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  caret-color: var(--accent-teal);
+  cursor: pointer;
+}
+
+.cw-input::selection {
+  background: var(--accent-teal);
+  color: var(--bg-deep);
+}
+
+/* ── Clue lists ── */
+.clue-columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 40px;
+}
+
+.clue-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  color: var(--accent-teal);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--line-subtle);
+}
+
+.clue-list { list-style: none; }
+
+.clue-item {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 0.5px solid var(--line-subtle);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.clue-item:hover, .clue-item:focus-visible {
+  background: var(--bg-elevated);
+}
+
+.clue-item:hover .clue-text, .clue-item:focus-visible .clue-text { color: var(--text-primary); }
+
+.clue-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  min-width: 20px; flex-shrink: 0;
+}
+
+.clue-text {
+  font-size: 13px; line-height: 1.5;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ── Answer key ── */
+.answer-key-note {
+  margin-bottom: 14px;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.answer-item {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 9px 12px;
+  border: 0.5px solid var(--line-subtle);
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.answer-item:hover, .answer-item:focus-visible {
+  border-color: var(--accent-teal);
+  transform: translateY(-1px);
+}
+
+.answer-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600;
+  color: var(--accent-teal);
   flex-shrink: 0;
 }
 
-.wafer-link-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-}
-
-.wafer-die-link {
-  position: absolute;
-  display: block;
-  border: 0.5px solid transparent;
-  border-radius: 2px;
-  background: transparent;
-  text-decoration: none;
-  outline: none;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-}
-
-.wafer-die-link:hover,
-.wafer-die-link:focus-visible {
-  border-color: oklch(82% 0.18 180 / 0.85);
-  background: oklch(72% 0.15 180 / 0.08);
-  box-shadow: 0 0 0 1px oklch(72% 0.15 180 / 0.18);
-}
-
-/* Outer glow ring */
-.wafer-ring {
-  position: absolute; inset: -4px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    oklch(48% 0.22 27),
-    var(--accent-violet),
-    var(--accent-gold),
-    var(--accent-teal),
-    var(--accent-rose),
-    oklch(48% 0.22 27)
-  );
-  filter: blur(6px);
-  opacity: 0.35;
-  animation: ring-rotate 12s linear infinite;
-}
-
-@keyframes ring-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Canvas-based wafer */
-#wafer-canvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  cursor: crosshair;
-}
-
-/* Holographic overlay canvas */
-#holo-canvas {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.0;
-  transition: opacity 0.3s;
-}
-
-.wafer-stage:hover #holo-canvas {
-  opacity: 1;
-}
-
-/* Notch visual */
-.wafer-notch {
-  position: absolute;
-  bottom: -2px; left: 50%; transform: translateX(-50%);
-  width: 20px; height: 12px;
-  background: var(--bg-deep);
-  border-radius: 0 0 10px 10px;
-  border: 0.5px solid var(--line-mid);
-  border-top: none;
-  z-index: 10;
+.answer-word {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
 }
 
 /* ═══════════════════════════════════════════
    DIE TOOLTIP
 ═══════════════════════════════════════════ */
-#die-tooltip {
-  position: fixed;
-  background: var(--glass-bg);
-  border: 0.5px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  padding: 10px 14px;
-  border-radius: 4px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s;
-  z-index: 200;
-  min-width: 160px;
-}
-
-#die-tooltip.visible { opacity: 1; }
-
-.tooltip-id {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  color: var(--accent-cyan);
-  letter-spacing: 0.1em;
-  margin-bottom: 4px;
-}
-
-.tooltip-title {
-  font-size: 13px; font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.tooltip-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.tooltip-state {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: var(--accent-teal);
-  margin-top: 4px;
-}
 
 /* ═══════════════════════════════════════════
    PROJECT DETAIL OVERLAY
@@ -370,7 +366,7 @@ nav {
 
 .panel-die-id {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--accent-cyan);
+  font-size: 10px; color: var(--accent-teal);
   letter-spacing: 0.15em; margin-bottom: 8px;
 }
 
@@ -509,7 +505,7 @@ nav {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(11px, 1.5vw, 14px);
   font-weight: 400;
-  color: var(--accent-cyan);
+  color: var(--accent-teal);
   letter-spacing: 0.1em;
   margin-top: 10px;
   display: block;
@@ -520,7 +516,7 @@ nav {
   font-weight: 400;
   color: var(--text-secondary);
   margin-top: 14px;
-  max-width: 500px;
+  max-width: 560px;
   margin-left: auto; margin-right: auto;
   line-height: 1.6;
 }
@@ -565,12 +561,12 @@ nav {
 }
 
 /* ═══════════════════════════════════════════
-   WAFER STATS BAR
+   STAT BAR
 ═══════════════════════════════════════════ */
-.wafer-stats {
+.stat-bar {
   display: flex; gap: 24px; align-items: center;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 32px;
   padding: 12px 20px;
   border: 0.5px solid var(--line-subtle);
   border-radius: 4px;
@@ -580,37 +576,26 @@ nav {
   margin-right: auto;
 }
 
-.wstat + .wstat {
+.stat + .stat {
   border-left: 0.5px solid var(--line-subtle);
   padding-left: 24px;
 }
 
-.wstat {
+.stat {
   display: flex; flex-direction: column; gap: 2px;
 }
 
-.wstat-label {
+.stat-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 8px; color: var(--text-secondary);
   letter-spacing: 0.14em; text-transform: uppercase;
 }
 
-.wstat-value {
+.stat-value {
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px; font-weight: 500;
   color: var(--text-mono);
 }
-
-/* ═══════════════════════════════════════════
-   COORDINATE LINES (decorative)
-═══════════════════════════════════════════ */
-.crosshair-v, .crosshair-h {
-  position: absolute;
-  background: var(--line-subtle);
-  pointer-events: none;
-}
-.crosshair-v { width: 0.5px; top: 0; bottom: 0; left: 50%; opacity: 0.4; }
-.crosshair-h { height: 0.5px; left: 0; right: 0; top: 50%; opacity: 0.4; }
 
 /* ═══════════════════════════════════════════
    SCROLLS SECTIONS
@@ -683,7 +668,7 @@ footer .footer-perf {
    TWEAKS PANEL
 ═══════════════════════════════════════════ */
 #tweaks-panel {
-  position: fixed; bottom: 200px; right: 24px; z-index: 500;
+  position: fixed; bottom: 24px; right: 24px; z-index: 500;
   background: var(--glass-bg);
   border: 0.5px solid var(--glass-border);
   backdrop-filter: blur(20px);
@@ -723,173 +708,6 @@ footer .footer-perf {
   cursor: pointer; outline: none;
 }
 
-.tweak-slider {
-  -webkit-appearance: none;
-  width: 100%; height: 2px;
-  background: var(--line-mid); border-radius: 2px; outline: none;
-}
-
-.tweak-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px; height: 12px; border-radius: 50%;
-  background: var(--accent-cyan); cursor: pointer;
-}
-
-.tweak-segmented {
-  display: flex; gap: 4px;
-}
-
-.tweak-seg-btn {
-  flex: 1; padding: 5px; border-radius: 3px;
-  border: 0.5px solid var(--line-mid);
-  background: var(--bg-elevated);
-  color: var(--text-secondary);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; cursor: pointer;
-  transition: all 0.15s;
-  text-align: center;
-}
-
-.tweak-seg-btn.active {
-  background: var(--accent-cyan);
-  color: oklch(10% 0.01 260);
-  border-color: var(--accent-cyan);
-}
-
-/* ═══════════════════════════════════════════
-   PROBE STATION TERMINAL
-═══════════════════════════════════════════ */
-#probe-station {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
-  height: 180px;
-  background: oklch(9% 0.014 200 / 0.92);
-  border-top: 0.5px solid oklch(35% 0.08 180 / 0.5);
-  backdrop-filter: blur(16px);
-  display: flex; flex-direction: column;
-  transform: translateY(100%);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-
-#probe-station.visible {
-  transform: translateY(0);
-  pointer-events: all;
-}
-
-/* Scanline overlay on terminal */
-#probe-station::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    oklch(0% 0 0 / 0.07) 3px,
-    oklch(0% 0 0 / 0.07) 4px
-  );
-}
-
-.probe-header {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 20px;
-  border-bottom: 0.5px solid oklch(30% 0.06 180 / 0.4);
-  flex-shrink: 0; position: relative; z-index: 1;
-}
-
-.probe-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; font-weight: 500;
-  color: oklch(60% 0.12 180);
-  letter-spacing: 0.2em; text-transform: uppercase;
-}
-
-.probe-addr {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: oklch(55% 0.10 180 / 0.7);
-  letter-spacing: 0.1em;
-  margin-left: auto;
-}
-
-.probe-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: oklch(72% 0.20 155);
-  box-shadow: 0 0 5px oklch(72% 0.20 155);
-  flex-shrink: 0;
-}
-
-.probe-body {
-  flex: 1; overflow: hidden;
-  padding: 10px 20px 12px;
-  display: flex; flex-direction: column; gap: 2px;
-  position: relative; z-index: 1;
-}
-
-.probe-line {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; line-height: 1.5;
-  white-space: pre;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.12s, transform 0.12s;
-}
-
-.probe-line.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.probe-line.info   { color: oklch(72% 0.18 160); }
-.probe-line.debug  { color: oklch(65% 0.14 200); }
-.probe-line.warn   { color: oklch(78% 0.18 70); }
-.probe-line.error  { color: oklch(65% 0.20 25); }
-.probe-line.dim    { color: oklch(40% 0.06 200); }
-
-/* Cursor blink */
-.probe-cursor {
-  display: inline-block; width: 7px; height: 13px;
-  background: oklch(72% 0.18 160);
-  vertical-align: text-bottom; margin-left: 2px;
-  animation: cur-blink 0.9s step-end infinite;
-}
-
-@keyframes cur-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-/* ═══════════════════════════════════════════
-   MICROSCOPE ZOOM OVERLAY
-═══════════════════════════════════════════ */
-#scope-zoom {
-  position: fixed; inset: 0; z-index: 250;
-  pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.scope-circle {
-  position: absolute;
-  border-radius: 50%;
-  background: var(--accent-cyan);
-  transform: scale(0);
-  opacity: 0;
-}
-
-/* ═══════════════════════════════════════════
-   FOOTER RENDER TIMER
-═══════════════════════════════════════════ */
-.footer-perf {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: oklch(45% 0.08 200);
-  letter-spacing: 0.08em;
-  display: flex; align-items: center; gap: 8px;
-}
-
-.footer-perf-val {
-  color: oklch(65% 0.14 160);
-}
-
 /* ═══════════════════════════════════════════
    LEGEND STRIP
 ═══════════════════════════════════════════ */
@@ -915,9 +733,7 @@ footer .footer-perf {
    MOBILE RESPONSIVE
 ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
-  :root {
-    --wafer-size: min(88vw, 88vh, 420px);
-  }
+  :root { --cw-cell: 22px; }
 
   nav {
     padding: 14px 16px;
@@ -925,30 +741,13 @@ footer .footer-perf {
     gap: 8px;
   }
 
-  .nav-status {
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .nav-stat { display: none; }
-
-  .nav-deploy-status {
-    padding: 4px 8px;
-  }
-
-  .nav-deploy-text {
-    font-size: 8px;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .hero {
-    padding: 90px 16px 60px;
+    padding: 100px 16px 60px;
   }
 
-  .hero-label { font-size: 8px; letter-spacing: 0.15em; text-align: center; }
+  .crossword-wrapper-section {
+    padding: 40px 16px 60px;
+  }
 
   .hero-name { font-size: 26px; }
 
@@ -956,18 +755,22 @@ footer .footer-perf {
 
   .hero-tagline { font-size: 13px; }
 
-  .wafer-stats {
+  .stat-bar {
     gap: 12px;
     padding: 10px 14px;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .wstat-value { font-size: 12px; }
+  .stat-value { font-size: 12px; }
 
   .legend-strip { gap: 12px; }
 
   .legend-item { font-size: 8px; }
+
+  .clue-columns { grid-template-columns: 1fr; gap: 20px; }
+
+  .answer-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 
   .about-strip {
     flex-direction: column;
@@ -987,13 +790,6 @@ footer .footer-perf {
   footer .footer-links { justify-self: center; }
   footer .footer-perf  { justify-self: center; }
 
-  /* Probe station slimmer on mobile */
-  #probe-station { height: 160px; }
-
-  .probe-body { padding: 8px 12px 10px; }
-  .probe-header { padding: 6px 12px; }
-  .probe-line { font-size: 10px; }
-
   /* Project panel full-width on mobile */
   .project-panel {
     width: 96vw;
@@ -1010,23 +806,19 @@ footer .footer-perf {
 
   #tweaks-panel {
     width: 200px;
-    bottom: 180px;
+    bottom: 16px;
     right: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  :root { --wafer-size: min(92vw, 92vh, 340px); }
+  :root { --cw-cell: 18px; }
 
-  .nav-deploy-text { max-width: 140px; font-size: 7px; }
-
-  .hero { padding: 80px 12px 200px; }
+  .hero { padding: 90px 12px 60px; }
 
   .hero-name { font-size: 22px; }
 
-  .wafer-stats { gap: 12px; }
-
-  .probe-line { font-size: 9px; }
+  .stat-bar { gap: 12px; }
 }
 
 /* ═══════════════════════════════════════════
@@ -1055,17 +847,9 @@ footer .footer-perf {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <span>&gt;</span> SILICON_SUBSTRATE <span>v2.4.1</span>
-  </div>
+  <div class="nav-logo">MAGETO NYAKONI</div>
   <div class="nav-status">
-    <span class="nav-stat"><span class="status-dot"></span><strong>CLEANROOM</strong> — CLASS 10</span>
-    <span class="nav-stat">NODE: <strong>7nm FinFET</strong></span>
-    <span class="nav-stat">YIELD: <strong>83.4%</strong></span>
-    <div class="nav-deploy-status">
-      <span class="deploy-live-dot"></span>
-      <span class="nav-deploy-text" id="nav-deploy-text">STATUS: DEPLOYING TO BOSTON_NODE // SEMICONDUCTOR_MASTERS: PENDING_START</span>
-    </div>
+    <span class="nav-stat"><span class="status-dot"></span>Open to opportunities</span>
   </div>
 </nav>
 
@@ -1073,73 +857,59 @@ footer .footer-perf {
 <div class="page-wrapper">
   <section class="hero">
 
-    <p class="hero-label fade-up fade-up-1">300mm silicon wafer · hover dies to inspect · click to explore</p>
-
-    <!-- WAFER STAGE -->
-    <div class="wafer-stage fade-up fade-up-2">
-      <div class="wafer-ring"></div>
-      <div class="crosshair-v"></div>
-      <div class="crosshair-h"></div>
-      <canvas id="wafer-canvas"></canvas>
-      <canvas id="holo-canvas"></canvas>
-      <div class="wafer-link-layer" id="wafer-link-layer"></div>
-      <div class="wafer-notch"></div>
-    </div>
-
     <!-- HERO IDENTITY -->
-    <div class="hero-footer fade-up fade-up-3">
+    <div class="hero-footer fade-up fade-up-1">
       <h1 class="hero-name">Mageto Nyakoni</h1>
-      <span class="hero-name-mono">M.S. SEMICONDUCTOR ENGINEERING (FALL 2026) · NORTHEASTERN UNIVERSITY</span>
+      <span class="hero-name-mono">SOFTWARE ENGINEER · SDET @ INFOSYS</span>
       <p class="hero-tagline">
-        Bridging software engineering and semiconductor manufacturing -
-        from data pipelines and full-stack systems to process control, yield analysis, and device fabrication.
+        Software engineer with experience across full-stack development, data engineering,
+        product management, and STEM leadership.
       </p>
 
-      <div class="wafer-stats fade-up fade-up-4">
-        <div class="wstat">
-          <span class="wstat-label">Experiences</span>
-          <span class="wstat-value">6</span>
+      <div class="stat-bar fade-up fade-up-2">
+        <div class="stat">
+          <span class="stat-label">Experiences</span>
+          <span class="stat-value">6</span>
         </div>
-        <div class="wstat">
-          <span class="wstat-label">Projects</span>
-          <span class="wstat-value">4</span>
+        <div class="stat">
+          <span class="stat-label">Projects</span>
+          <span class="stat-value">4</span>
         </div>
-        <div class="wstat">
-          <span class="wstat-label">Awards</span>
-          <span class="wstat-value">4</span>
+        <div class="stat">
+          <span class="stat-label">Awards</span>
+          <span class="stat-value">4</span>
         </div>
-        <div class="wstat">
-          <span class="wstat-label">Leadership</span>
-          <span class="wstat-value">4</span>
+        <div class="stat">
+          <span class="stat-label">Leadership</span>
+          <span class="stat-value">4</span>
         </div>
       </div>
 
       <!-- LEGEND -->
-      <div class="legend-strip">
+      <div class="legend-strip" id="legend-strip">
         <div class="legend-item">
-          <div class="legend-dot" style="background:oklch(48% 0.22 27)"></div>
+          <div class="legend-dot" data-category="experience"></div>
           Experience
         </div>
         <div class="legend-item">
-          <div class="legend-dot" style="background:oklch(72% 0.18 290)"></div>
+          <div class="legend-dot" data-category="project"></div>
           Projects
         </div>
         <div class="legend-item">
-          <div class="legend-dot" style="background:oklch(75% 0.16 55)"></div>
+          <div class="legend-dot" data-category="award"></div>
           Awards
         </div>
         <div class="legend-item">
-          <div class="legend-dot" style="background:oklch(72% 0.18 170)"></div>
+          <div class="legend-dot" data-category="leadership"></div>
           Leadership
         </div>
         <div class="legend-item">
-          <div class="legend-dot" style="background:oklch(70% 0.18 340)"></div>
+          <div class="legend-dot" data-category="education"></div>
           Education
         </div>
       </div>
 
       <div class="hero-cta">
-        <span class="cta-hint">▶ SELECT A DIE TO INSPECT</span>
         <a href="./uploads/resume.pdf" class="hero-link" target="_blank" rel="noopener noreferrer">View Full Resume</a>
       </div>
     </div>
@@ -1151,12 +921,12 @@ footer .footer-perf {
     <div class="about-label">// about</div>
     <div class="about-content">
       <p>
-        Software engineer and incoming semiconductor graduate student with strong foundations in Python, Java, C++, data analysis, 
+        Software engineer with strong foundations in Python, Java, C++, data analysis,
         and systems design. Experienced across product management, data engineering, full-stack development and testing, and STEM education.
       </p>
       <p>
-        Every die on this wafer is a real experience. 
-        <span style="color:oklch(75% 0.22 200)">■ Cyan</span> = work experience &nbsp;
+        Every word in this crossword is a real experience.
+        <span style="color:oklch(75% 0.22 27)">■ Cyan</span> = work experience &nbsp;
         <span style="color:oklch(75% 0.22 290)">■ Violet</span> = projects &nbsp;
         <span style="color:oklch(78% 0.18 55)">■ Gold</span> = awards &nbsp;
         <span style="color:oklch(75% 0.22 170)">■ Teal</span> = leadership &nbsp;
@@ -1165,9 +935,55 @@ footer .footer-perf {
     </div>
   </div>
 
+  <!-- CROSSWORD INTRO -->
+  <div class="about-strip">
+    <div class="about-label">// the crossword</div>
+    <div class="about-content">
+      <p>
+        The grid below is built entirely from my own background — every answer is the name of a company, project, award,
+        or organization pulled straight from the timeline above. Nothing in it is generic filler; if it's in the grid, it actually happened.
+      </p>
+      <p>
+        Click any clue to read the full story behind it, or click into a square and type — each letter you enter follows
+        its across or down word automatically. Stuck, or just want to skip ahead? Every solution is listed in the answer key
+        at the bottom of the page.
+      </p>
+      <p class="cta-hint">▶ CLICK A CLUE, OR CLICK A SQUARE AND START TYPING</p>
+    </div>
+  </div>
+
+  <!-- CROSSWORD -->
+  <section class="crossword-wrapper-section">
+    <div class="crossword-section">
+      <div class="crossword-scroll">
+        <div class="crossword-grid" id="crossword-grid"></div>
+      </div>
+
+      <div class="clue-columns">
+        <div>
+          <div class="clue-heading">Across</div>
+          <ul class="clue-list" id="clues-across"></ul>
+        </div>
+        <div>
+          <div class="clue-heading">Down</div>
+          <ul class="clue-list" id="clues-down"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANSWER KEY (kept at the bottom of the site) -->
+  <div class="about-strip">
+    <div class="about-label">// answer key</div>
+    <div class="about-content">
+      <p class="answer-key-note">Every solution, in case you get stuck (or just want to skip ahead).</p>
+      <div class="answer-grid" id="answer-grid"></div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer>
-    <span class="footer-mono">© 2026 · MAGETO NYAKONI · MSE · NORTHEASTERN</span>
+    <span class="footer-mono">© 2026 · MAGETO NYAKONI · SOFTWARE ENGINEER</span>
     <div class="footer-links">
       <a href="https://github.com/mageto" class="footer-link" target="_blank">github</a>
       <a href="https://linkedin.com/in/mageto-nyakoni" class="footer-link" target="_blank">linkedin</a>
@@ -1179,32 +995,6 @@ footer .footer-perf {
       &nbsp;//&nbsp; SYSTEM_STABLE: <span class="footer-perf-val" id="system-stable">—</span>
     </div>
   </footer>
-</div>
-
-<!-- MICROSCOPE ZOOM OVERLAY -->
-<div id="scope-zoom">
-  <div class="scope-circle" id="scope-circle"></div>
-</div>
-
-<!-- PROBE STATION TERMINAL -->
-<div id="probe-station">
-  <div class="probe-header">
-    <span class="probe-dot"></span>
-    <span class="probe-title">probe_station // diagnostic output</span>
-    <span class="probe-addr" id="probe-addr">IDLE — HOVER A DIE TO PROBE</span>
-  </div>
-  <div class="probe-body" id="probe-body">
-    <span class="probe-line dim show">// Probe station ready. Awaiting die selection...</span>
-    <span class="probe-line dim show">// Hover any functional die on the wafer to begin diagnostics.</span>
-  </div>
-</div>
-
-<!-- DIE TOOLTIP -->
-<div id="die-tooltip">
-  <div class="tooltip-id" id="tt-id"></div>
-  <div class="tooltip-title" id="tt-title"></div>
-  <div class="tooltip-meta" id="tt-meta"></div>
-  <div class="tooltip-state" id="tt-state"></div>
 </div>
 
 <!-- PROJECT OVERLAY -->
@@ -1230,20 +1020,6 @@ footer .footer-perf {
   <div class="tweaks-title">⚙ Tweaks</div>
 
   <div class="tweak-row">
-    <span class="tweak-label">Holographic Intensity</span>
-    <input type="range" class="tweak-slider" id="tw-holo" min="0" max="100" value="80">
-  </div>
-
-  <div class="tweak-row">
-    <span class="tweak-label">Die Size</span>
-    <div class="tweak-segmented">
-      <button class="tweak-seg-btn" onclick="setDieSize(22)">XS</button>
-      <button class="tweak-seg-btn active" onclick="setDieSize(28)">MD</button>
-      <button class="tweak-seg-btn" onclick="setDieSize(36)">LG</button>
-    </div>
-  </div>
-
-  <div class="tweak-row">
     <span class="tweak-label">Color Accent</span>
     <select class="tweak-select" id="tw-accent">
       <option value="cyan">Cyan / Violet / Gold</option>
@@ -1251,34 +1027,14 @@ footer .footer-perf {
       <option value="rose">Rose / Violet / Amber</option>
     </select>
   </div>
-
-  <div class="tweak-row">
-    <span class="tweak-label">Ring Animation</span>
-    <div class="tweak-segmented">
-      <button class="tweak-seg-btn active" onclick="setRing(true)">ON</button>
-      <button class="tweak-seg-btn" onclick="setRing(false)">OFF</button>
-    </div>
-  </div>
 </div>
 
 <script>
 /* ═══════════════════════════════════════════
-   PROJECT DATA
+   ENTRY DATA
 ═══════════════════════════════════════════ */
-// ── CATEGORY COLOR MAP ──────────────────────────────────────
-// experience → cyan (h=200)
-// project    → violet (h=290)
-// award      → gold (h=55)
-// leadership → teal (h=170)
-// education  → rose (h=340)
-
-const CATEGORY_HUE = {
-  experience: 27,
-  project:    290,
-  award:      55,
-  leadership: 170,
-  education:  340,
-};
+// ── CATEGORY COLOR MAP (hue index into the active accent palette) ──
+const CATEGORY_ORDER = ['experience', 'project', 'award', 'leadership', 'education'];
 
 const RESUME_HREF = './uploads/resume.pdf';
 const PROFILE_LINKS = {
@@ -1287,7 +1043,6 @@ const PROFILE_LINKS = {
 };
 
 const LINK_TARGETS = {
-  'View Program': 'https://graduate.northeastern.edu/program/master-of-science-in-semiconductor-engineering/',
   'UT Dallas': 'https://catalog.utdallas.edu/2024/undergraduate/programs/ecs/software-engineering',
   'Full Resume': RESUME_HREF,
   'Revature': 'https://revature.com/',
@@ -1319,279 +1074,264 @@ function normalizeLinks(links) {
   });
 }
 
-const PROJECTS = [
+// Each entry carries a single crossword `answer` (letters only, uppercase)
+// and a `clue` that hints at it without giving away the word.
+const ENTRIES = [
   // ── EDUCATION ───────────────────────────────────────────
   {
-    id: "D-0xED01",
-    category: "education",
-    title: "Northeastern University — M.S. Semiconductor Engineering",
-    subtitle: "Concentration in Materials & Manufacturing · Admitted Fall 2026 · Boston, MA",
-    tags: ["Semiconductor Engineering", "Materials", "Manufacturing", "Graduate"],
-    description: "Admitted to Northeastern University's M.S. program in Semiconductor Engineering with a concentration in Materials & Manufacturing for Fall 2026. Recipient of a 55% merit-based tuition scholarship, recognizing academic excellence and potential in the semiconductor field.",
-    specs: { "Degree": "M.S. Semiconductor Eng.", "Start": "Fall 2026", "Location": "Boston, MA", "Scholarship": "55% Merit Award" },
-    state: "0b1110_0001",
-    links: normalizeLinks(["View Program", "LinkedIn", "Full Resume"])
-  },
-  {
-    id: "D-0xED02",
+    id: "EDU-01",
     category: "education",
     title: "UT Dallas — B.S. Software Engineering",
     subtitle: "May 2025 · Richardson, TX · Academic Excellence Scholarship",
     tags: ["Software Engineering", "Algorithms", "ML", "NLP", "OS"],
     description: "Bachelor of Science in Software Engineering from The University of Texas at Dallas (May 2025). Coursework includes Algorithms & Data Structures, Operating Systems, Databases, Intro to Machine Learning, and Human Language Technologies (NLP). Recipient of Academic Excellence Scholarship, NSBE Bridge Scholar, and INROADS Fellow.",
     specs: { "Degree": "B.S. Software Eng.", "Graduated": "May 2025", "GPA": "Honors", "Fellowships": "NSBE · INROADS" },
-    state: "0b1101_0010",
-    links: normalizeLinks(["UT Dallas", "Full Resume"])
+    links: normalizeLinks(["UT Dallas", "Full Resume"]),
+    answer: "UTDALLAS",
+    clue: "Bachelor's degree in Software Engineering, awarded May 2025"
   },
 
   // ── EXPERIENCE ──────────────────────────────────────────
   {
-    id: "D-0xEX01",
+    id: "EXP-01",
     category: "experience",
     title: "Revature — Java Full Stack Engineer",
     subtitle: "Dec 2025 – Feb 2026 · Plano, TX",
     tags: ["Java", "Spring Boot", "Full Stack", "Web"],
     description: "Completed intensive training in Java full-stack development at Revature, focusing on Spring framework and modern web technologies. Developed production-ready skills in enterprise Java, RESTful APIs, and frontend integration.",
     specs: { "Stack": "Java / Spring Boot", "Type": "Full Stack", "Duration": "3 months", "Location": "Plano, TX" },
-    state: "0b1010_0011",
-    links: normalizeLinks(["Revature", "GitHub"])
+    links: normalizeLinks(["Revature", "GitHub"]),
+    answer: "REVATURE",
+    clue: "Java full-stack training program (Dec 2025 – Feb 2026)"
   },
   {
-    id: "D-0xEX02",
+    id: "EXP-02",
     category: "experience",
     title: "North Texas Semiconductor Institute (NTxSI)",
     subtitle: "Nov 2024 – Aug 2025 · Student Assistant · Richardson, TX",
     tags: ["Semiconductor", "Web Dev", "CSS", "Outreach", "Fabrication"],
     description: "Maintained the NTxSI website, shipping UX updates and CSS refactors aligned to stakeholder requirements. Supported semiconductor outreach as a student assistant on K–12 field trips, reinforcing fabrication concepts through hands-on demonstrations for North Texas students.",
     specs: { "Domain": "Semiconductor Ecosystem", "Role": "Student Assistant", "Duration": "9 months", "Focus": "Web + Outreach" },
-    state: "0b1100_1101",
-    links: normalizeLinks(["NTxSI Site", "LinkedIn"])
+    links: normalizeLinks(["NTxSI Site", "LinkedIn"]),
+    answer: "NTXSI",
+    clue: "Institute where I ran K–12 outreach and maintained the website"
   },
   {
-    id: "D-0xEX03",
+    id: "EXP-03",
     category: "experience",
     title: "Match Group — Product Manager Intern",
     subtitle: "Jun – Aug 2024 · Growth & Monetization · Dallas, TX",
     tags: ["Product Management", "Jira", "Payments", "Growth", "Gen-Z"],
     description: "Gathered requirements with Payments Engineering, Finance, and Legal; authored 45 Jira user stories and co-owned a subscription payments migration plan projecting ~30% profit uplift with weekly executive readouts. Co-led a Gen-Z acquisition workstream projecting ~8% MAU increase. Coordinated across six cross-functional partners.",
     specs: { "Profit Proj.": "~30% uplift", "MAU Proj.": "+8%", "Stories": "45 Jira", "Partners": "6 XFN teams" },
-    state: "0b1111_0100",
-    links: normalizeLinks(["Match Group", "Full Resume"])
+    links: normalizeLinks(["Match Group", "Full Resume"]),
+    answer: "MATCHGROUP",
+    clue: "PM internship on payments & growth, summer 2024"
   },
   {
-    id: "D-0xEX04",
+    id: "EXP-04",
     category: "experience",
     title: "RSM — Data Analyst Intern",
     subtitle: "Jun – Aug 2023 · Innovation Team · Minneapolis, MN",
     tags: ["Power BI", "Python", "Pandas", "Data Analysis", "Dashboarding"],
     description: "Utilized Power BI to analyze course completion and demographic data for 1,000+ employees, proposing a strategy targeting a 30% increase in program adoption. Implemented Python & Pandas to clean and transform data across three projects, improving Data Science team throughput by ~20%.",
     specs: { "Tool": "Power BI + Python", "Employees": "1,000+", "Adoption Target": "+30%", "Throughput": "+20%" },
-    state: "0b1001_1110",
-    links: normalizeLinks(["RSM US", "LinkedIn"])
+    links: normalizeLinks(["RSM US", "LinkedIn"]),
+    answer: "RSM",
+    clue: "Data analyst internship using Power BI & Python, summer 2023"
   },
   {
-    id: "D-0xEX05",
+    id: "EXP-05",
     category: "experience",
     title: "HAKing Innovation — Engineering Intern",
     subtitle: "Mar 2023 – Mar 2024 · Dallas, TX · STEM Instruction",
     tags: ["Arduino", "Circuits", "3D Design", "STEM", "Education"],
     description: "Introduced Programming, 3D Design, Circuits, and Arduino to 100+ Dallas ISD students in after-school and summer STEM programs. Assisted with hands-on lab-style activities building early familiarity with electronic circuits and hardware concepts, while refining technical communication skills.",
     specs: { "Students": "100+ Dallas ISD", "Topics": "Arduino · Circuits · 3D", "Format": "After-school + Summer", "Skills": "Hardware + Comms" },
-    state: "0b0111_1001",
-    links: normalizeLinks(["HAKing", "LinkedIn"])
+    links: normalizeLinks(["HAKing", "LinkedIn"]),
+    answer: "HAKING",
+    clue: "Taught Arduino & circuits to 100+ Dallas ISD students"
   },
   {
-    id: "D-0xEX06",
+    id: "EXP-06",
     category: "experience",
     title: "Infosys — SDET",
     subtitle: "May 2026 – Present",
     tags: ["SDET", "Selenium", "Automation", "AZ-900", "AI Upskilling"],
     description: "Working as an SDET at Infosys since May 2026, building testing depth across Selenium-based automation and broader QA workflows. Alongside test automation work, I have been advancing cloud knowledge through certification preparation including AZ-900 and continuing AI upskilling across modern tooling and applied use cases.",
     specs: { "Role": "SDET", "Start": "May 2026", "Focus": "Selenium + Automation", "Upskilling": "AZ-900 + AI" },
-    state: "0b1101_1011",
-    links: normalizeLinks(["Infosys", "LinkedIn"])
+    links: normalizeLinks(["Infosys", "LinkedIn"]),
+    answer: "INFOSYS",
+    clue: "Current SDET role building Selenium-based automation"
   },
 
   // ── PROJECTS ────────────────────────────────────────────
   {
-    id: "D-0xPJ01",
+    id: "PRJ-01",
     category: "project",
     title: "Mustang Optics Website",
     subtitle: "Next.js · Vercel · JavaScript · HTML/CSS · Figma",
     tags: ["Next.js", "Vercel", "JavaScript", "HTML/CSS", "Figma"],
     description: "Designed and developed a fully responsive website from scratch for a small optics engineering business using Next.js, with reusable components and modern UI patterns. Created design mockups in Figma and ensured usability and visual consistency across devices; deployed and maintained on Vercel.",
     specs: { "Framework": "Next.js", "Deploy": "Vercel", "Design": "Figma", "Type": "Client Project" },
-    state: "0b1110_1010",
-    links: normalizeLinks(["Live Site", "GitHub"])
+    links: normalizeLinks(["Live Site", "GitHub"]),
+    answer: "MUSTANG",
+    clue: "Next.js site built for an optics engineering business"
   },
   {
-    id: "D-0xPJ02",
+    id: "PRJ-02",
     category: "project",
     title: "Location Verification App",
     subtitle: "Flutter · Dart · C++ · Java · GPS · Cross-platform",
     tags: ["Flutter", "Dart", "C++", "Java", "GPS", "Mobile"],
     description: "Designed an intuitive UI/UX for a cross-platform mobile application (Android and iOS) using Flutter, ensuring seamless navigation and clear location feedback. Collaborated with a team of five to integrate GPS tracking and backend services, optimizing real-time updates for location verification.",
     specs: { "Framework": "Flutter / Dart", "Platforms": "Android + iOS", "Team": "5 engineers", "Backend": "GPS + C++/Java" },
-    state: "0b1011_0111",
-    links: normalizeLinks(["GitHub", "Full Resume"])
+    links: normalizeLinks(["GitHub", "Full Resume"]),
+    answer: "LOCATOR",
+    clue: "Flutter app for cross-platform GPS location verification"
   },
   {
-    id: "D-0xPJ03",
+    id: "PRJ-03",
     category: "project",
     title: "North Texas Semiconductor Institute Website",
     subtitle: "WordPress · CSS · HTML · JavaScript",
     tags: ["WordPress", "CSS", "HTML", "JavaScript", "Content Management"],
     description: "Maintained the North Texas Semiconductor Institute website in WordPress, publishing content updates, adding news feeds, and extending the site's presentation with additional CSS styling. The work focused on keeping site content current while improving usability and polish across web-facing institute pages.",
     specs: { "Platform": "WordPress", "Content": "News feeds + updates", "Frontend": "CSS / HTML / JavaScript", "Type": "Website Maintenance" },
-    state: "0b1100_0110",
-    links: normalizeLinks(["NTxSI Site", "Full Resume"])
+    links: normalizeLinks(["NTxSI Site", "Full Resume"]),
+    answer: "NTXSIWEB",
+    clue: "WordPress site kept current with news feeds and CSS polish"
   },
   {
-    id: "D-0xPJ04",
+    id: "PRJ-04",
     category: "project",
     title: "Family Web Website",
     subtitle: "Astro · 3D Force Graph · React · TypeScript · Render",
     tags: ["Astro", "3D Force Graph", "React", "TypeScript", "Render"],
     description: "Built Family Web, an interactive website that uses a 3D rendering library to create dynamic family webbing and visualize relationships across a broad family tree. The experience was designed to make extended family structure easier to explore through motion, depth, and connected graph interactions in the browser.",
     specs: { "Framework": "Astro + React", "Visualization": "3D Force Graph", "Language": "TypeScript", "Hosting": "Render" },
-    state: "0b1110_1101",
     links: normalizeLinks([
       { label: "Live Site", href: "https://family-web-m67n.onrender.com/" },
       "Full Resume"
-    ])
+    ]),
+    answer: "FAMILYWEB",
+    clue: "Astro + 3D force-graph site for visualizing family relationships"
   },
 
   // ── LEADERSHIP ──────────────────────────────────────────
   {
-    id: "D-0xLD01",
+    id: "LDR-01",
     category: "leadership",
     title: "Product@Dallas — Co-Founder & Program Manager",
     subtitle: "Jul 2024 – May 2025 · UT Dallas Chapter",
     tags: ["Product Management", "Community", "Workshops", "UTD"],
     description: "Co-founded the first Product Management student organization at UT Dallas, growing participation to 30+ active members. Organized product case workshops and mock panels, supporting 10+ members in earning PM/SWE offers at companies including Microsoft and Salesforce.",
     specs: { "Members": "30+ active", "Placements": "10+ PM/SWE offers", "Companies": "Microsoft · Salesforce", "Role": "Co-Founder" },
-    state: "0b1000_1111",
-    links: normalizeLinks(["LinkedIn", "Chapter Info"])
+    links: normalizeLinks(["LinkedIn", "Chapter Info"]),
+    answer: "PRODUCTDALLAS",
+    clue: "Product management org I co-founded at UT Dallas"
   },
   {
-    id: "D-0xLD02",
+    id: "LDR-02",
     category: "leadership",
     title: "Jonsson School of Engineering Council — President",
     subtitle: "Apr 2024 – Apr 2025 · UT Dallas",
     tags: ["Leadership", "Council", "Engineering", "UTD", "Operations"],
     description: "Led council initiatives and supported 20+ engineering organizations through monthly town halls and standardized status reporting to the Dean and faculty. Built a new onboarding roadmap and monthly readout structure, improving council membership engagement and good standing by ~40%.",
     specs: { "Orgs Supported": "20+", "Engagement": "+40%", "Reporting": "Dean + Faculty", "Role": "President + Secretary" },
-    state: "0b1101_0000",
-    links: normalizeLinks(["UT Dallas Eng.", "LinkedIn"])
+    links: normalizeLinks(["UT Dallas Eng.", "LinkedIn"]),
+    answer: "JONSSON",
+    clue: "Engineering council I led as President at UT Dallas"
   },
   {
-    id: "D-0xLD03",
+    id: "LDR-03",
     category: "leadership",
     title: "NSBE UTD Chapter — President",
     subtitle: "Apr 2023 – May 2025 · National Society of Black Engineers",
     tags: ["NSBE", "Leadership", "Funding", "Agile", "DEI"],
     description: "Secured $15k+ in funding by leading a 15-member executive board using agile planning for programs supporting underrepresented engineering students. Increased chapter membership by ~300% through campus outreach and collaborations with engineering and cultural organizations.",
     specs: { "Funding": "$15k+ secured", "Membership": "+300% growth", "Board": "15 executives", "Method": "Agile planning" },
-    state: "0b1110_0110",
-    links: normalizeLinks(["NSBE National", "LinkedIn"])
+    links: normalizeLinks(["NSBE National", "LinkedIn"]),
+    answer: "NSBEUTD",
+    clue: "Society of Black Engineers chapter I led as President"
   },
   {
-    id: "D-0xLD04",
+    id: "LDR-04",
     category: "leadership",
     title: "Microsoft TEALS — Volunteer",
     subtitle: "Sep 2023 – May 2025 · JJ Pearce HS · Dallas, TX",
     tags: ["Java", "OOP", "CS Education", "AP CSA", "Microsoft"],
     description: "Supported JJ Pearce High School's AP Computer Science A teachers in instructing Java & Object-Oriented Programming to 30+ students. Part of Microsoft's Technology Education and Literacy in Schools (TEALS) program bridging industry professionals into K–12 CS classrooms.",
     specs: { "Students": "30+", "Subject": "Java + OOP · AP CSA", "Duration": "2 years", "Program": "Microsoft TEALS" },
-    state: "0b0110_1100",
-    links: normalizeLinks(["TEALS Program", "LinkedIn"])
+    links: normalizeLinks(["TEALS Program", "LinkedIn"]),
+    answer: "TEALS",
+    clue: "Microsoft program where I taught AP CS A at a Dallas high school"
   },
 
   // ── AWARDS ──────────────────────────────────────────────
   {
-    id: "D-0xAW01",
+    id: "AWD-01",
     category: "award",
     title: "1st Place — Tindership Hackathon",
     subtitle: "Best Overall Product · $5,000 Prize · 2024",
     tags: ["Hackathon", "1st Place", "$5,000", "Product", "2024"],
     description: "Awarded 1st Place — Best Overall Product at the Tindership Hackathon in 2024, earning a $5,000 prize. Recognized for delivering the most complete, well-executed product concept among all competing teams.",
     specs: { "Award": "1st Place Overall", "Prize": "$5,000", "Year": "2024", "Type": "Hackathon" },
-    state: "0b1111_1111",
-    links: normalizeLinks(["LinkedIn", "Tinder Tech"])
+    links: normalizeLinks(["LinkedIn", "Tinder Tech"]),
+    answer: "TINDERSHIP",
+    clue: "Hackathon where I won 1st place & $5,000 (2024)"
   },
   {
-    id: "D-0xAW02",
+    id: "AWD-02",
     category: "award",
     title: "1st Place — Apple Black@Hardware Award",
     subtitle: "$5,000 Prize · 2024",
     tags: ["Apple", "Hardware", "1st Place", "$5,000", "2024"],
     description: "Received 1st Place at the Apple Black@Hardware Award in 2024, a prestigious recognition for Black engineers demonstrating excellence at the intersection of hardware, innovation, and engineering leadership. Prize: $5,000.",
     specs: { "Award": "1st Place", "Prize": "$5,000", "Org": "Apple", "Year": "2024" },
-    state: "0b1111_0101",
-    links: normalizeLinks(["LinkedIn", "Apple Diversity"])
+    links: normalizeLinks(["LinkedIn", "Apple Diversity"]),
+    answer: "APPLEAWARD",
+    clue: "1st-place recognition for Black engineers in hardware (2024)"
   },
   {
-    id: "D-0xAW03",
+    id: "AWD-03",
     category: "award",
     title: "NSBE Region 5 Community Enrichment Vanguard Award",
     subtitle: "National Society of Black Engineers · 2024",
     tags: ["NSBE", "Region 5", "Community", "Vanguard", "2024"],
     description: "Honored with the NSBE Region 5 Community Enrichment Vanguard Award in 2024, recognizing exceptional contributions to community building, STEM outreach, and support for underrepresented engineering students across the region.",
     specs: { "Org": "NSBE Region 5", "Type": "Community Award", "Year": "2024", "Scope": "Regional" },
-    state: "0b1010_0101",
-    links: normalizeLinks(["NSBE", "LinkedIn"])
+    links: normalizeLinks(["NSBE", "LinkedIn"]),
+    answer: "VANGUARD",
+    clue: "NSBE Region 5 award for community enrichment (2024)"
   },
   {
-    id: "D-0xAW04",
+    id: "AWD-04",
     category: "award",
     title: "INROADS 'The Future You' Award",
     subtitle: "INROADS Fellowship · 2024",
     tags: ["INROADS", "Fellowship", "Award", "2024"],
     description: "Recipient of the INROADS 'The Future You' Award in 2024, recognizing outstanding potential, leadership, and professional development among INROADS fellows committed to careers in business and industry.",
     specs: { "Org": "INROADS", "Award": "'The Future You'", "Year": "2024", "Type": "Fellowship Award" },
-    state: "0b1001_0001",
-    links: normalizeLinks(["INROADS", "LinkedIn"])
+    links: normalizeLinks(["INROADS", "LinkedIn"]),
+    answer: "INROADS",
+    clue: "Fellowship award for 'The Future You' (2024)"
   },
 ];
 
 const ACCENT_PALETTES = {
-  cyan:  { h1: 27,  h2: 290, h3: 55,  h4: 170, h5: 340, c: 0.22 },
-  green: { h1: 150, h2: 170, h3: 100, h4: 130, h5: 200, c: 0.20 },
-  rose:  { h1: 340, h2: 290, h3: 50,  h4: 360, h5: 310, c: 0.20 },
+  cyan:  { experience: 27,  project: 290, award: 55,  leadership: 170, education: 340 },
+  green: { experience: 150, project: 170, award: 100, leadership: 130, education: 200 },
+  rose:  { experience: 340, project: 290, award: 50,  leadership: 20,  education: 310 },
 };
 
-// Get hue for a project die by category
-function getProjectHue(proj) {
-  return CATEGORY_HUE[proj.category] ?? currentPalette.h1;
-}
-
 let currentPalette = ACCENT_PALETTES.cyan;
-let holoIntensity = 0.80;
-let currentDieSize = 28;
-let ringEnabled = true;
 
-/* ═══════════════════════════════════════════
-   CANVAS WAFER ENGINE
-═══════════════════════════════════════════ */
-const waferCanvas = document.getElementById('wafer-canvas');
-const holoCanvas  = document.getElementById('holo-canvas');
-const waferLinkLayer = document.getElementById('wafer-link-layer');
-const waferCtx    = waferCanvas.getContext('2d');
-const holoCtx     = holoCanvas.getContext('2d');
-
-let waferSize, dies = [], hoveredDie = null, clickedDie = null;
-let mouseX = -1, mouseY = -1;
-let mouseRelX = 0.5, mouseRelY = 0.5;
-let frameId;
-
-function updateMouseRelFromClient(clientX, clientY) {
-  const rect = waferCanvas.getBoundingClientRect();
-  mouseRelX = (clientX - rect.left) / rect.width;
-  mouseRelY = (clientY - rect.top)  / rect.height;
+function categoryHue(category) {
+  return currentPalette[category] ?? currentPalette.experience;
 }
 
 function oklchToRgb(l, c, h) {
-  // Approximate oklch to rgb for canvas use
   const a = c * Math.cos(h * Math.PI / 180);
   const b = c * Math.sin(h * Math.PI / 180);
 
@@ -1616,412 +1356,398 @@ function oklchToRgb(l, c, h) {
   ];
 }
 
-function hueToColor(hue, alpha = 1) {
-  const [r, g, b] = oklchToRgb(0.72, 0.22, hue);
-  return `rgba(${r},${g},${b},${alpha})`;
+function categoryColor(category, l = 0.72, c = 0.20) {
+  const [r, g, b] = oklchToRgb(l, c, categoryHue(category));
+  return `rgb(${r},${g},${b})`;
 }
 
-function setupWafer() {
-  const stage = document.querySelector('.wafer-stage');
-  waferSize = stage.offsetWidth;
+/* ═══════════════════════════════════════════
+   CROSSWORD GENERATOR
+   Greedy intersection placement on a sparse grid,
+   with a spaced fallback for words that can't cross.
+═══════════════════════════════════════════ */
+function buildCrossword(entries) {
+  const SIZE = 40;
+  const grid = new Map();
+  const placements = [];
+  const key = (r, c) => `${r},${c}`;
 
-  waferCanvas.width  = waferSize;
-  waferCanvas.height = waferSize;
-  holoCanvas.width   = waferSize;
-  holoCanvas.height  = waferSize;
+  function canPlace(word, row, col, dir) {
+    const beforeR = dir === 'V' ? row - 1 : row;
+    const beforeC = dir === 'H' ? col - 1 : col;
+    if (grid.has(key(beforeR, beforeC))) return false;
 
-  const dieSize = currentDieSize;
-  const dieGap  = 2;
-  const step    = dieSize + dieGap;
-  const cols    = Math.floor(waferSize / step);
-  const rows    = Math.floor(waferSize / step);
-  const cx      = waferSize / 2;
-  const cy      = waferSize / 2;
-  const radius  = waferSize / 2;
-  const notchH  = 18;
+    const afterR = dir === 'V' ? row + word.length : row;
+    const afterC = dir === 'H' ? col + word.length : col;
+    if (grid.has(key(afterR, afterC))) return false;
 
-  dies = [];
+    let hasIntersection = false;
 
-  // Project assignment — distribute projects across valid dies
-  const projectIndices = [];
-  // We'll assign these after building all valid dies
+    for (let i = 0; i < word.length; i++) {
+      const r = dir === 'V' ? row + i : row;
+      const c = dir === 'H' ? col + i : col;
+      if (r < 0 || c < 0 || r >= SIZE || c >= SIZE) return false;
 
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const x = col * step + (waferSize - cols * step) / 2;
-      const y = row * step + (waferSize - rows * step) / 2;
+      const existing = grid.get(key(r, c));
+      if (existing) {
+        if (existing !== word[i]) return false;
+        hasIntersection = true;
+      } else {
+        // New cell — perpendicular neighbors must be empty so words don't touch illegally
+        if (dir === 'H') {
+          if (grid.has(key(r - 1, c)) || grid.has(key(r + 1, c))) return false;
+        } else {
+          if (grid.has(key(r, c - 1)) || grid.has(key(r, c + 1))) return false;
+        }
+      }
+    }
+    return { ok: true, hasIntersection };
+  }
 
-      // Die center
-      const dcx = x + dieSize / 2;
-      const dcy = y + dieSize / 2;
+  function place(word, row, col, dir, entry) {
+    for (let i = 0; i < word.length; i++) {
+      const r = dir === 'V' ? row + i : row;
+      const c = dir === 'H' ? col + i : col;
+      grid.set(key(r, c), word[i]);
+    }
+    placements.push({ word, row, col, dir, entry });
+  }
 
-      // Distance from wafer center
-      const dist = Math.sqrt((dcx - cx) ** 2 + (dcy - cy) ** 2);
+  const sorted = [...entries].sort((a, b) => b.answer.length - a.answer.length);
 
-      // Must be within circle
-      if (dist + dieSize * 0.2 > radius) continue;
+  const first = sorted[0];
+  place(first.answer, Math.floor(SIZE / 2), Math.floor((SIZE - first.answer.length) / 2), 'H', first);
 
-      // Notch exclusion (bottom center)
-      const notchY = waferSize - notchH;
-      const notchW = 30;
-      if (dcy > notchY - 4 && Math.abs(dcx - cx) < notchW / 2) continue;
+  for (let idx = 1; idx < sorted.length; idx++) {
+    const entry = sorted[idx];
+    const word = entry.answer;
+    let best = null;
+    let bestScore = -1;
 
-      const isEdge = dist > radius * 0.85;
-      const isDef  = Math.random() < 0.05; // 5% defect rate
-      const addr   = `0x${((row * cols + col) & 0xFFFF).toString(16).toUpperCase().padStart(4,'0')}`;
+    for (let i = 0; i < word.length; i++) {
+      const ch = word[i];
+      for (const p of placements) {
+        for (let j = 0; j < p.word.length; j++) {
+          if (p.word[j] !== ch) continue;
 
-      dies.push({ x, y, dieSize, dcx, dcy, isEdge, isDef, addr, row, col, projectIdx: -1 });
+          const newDir = p.dir === 'H' ? 'V' : 'H';
+          let row, col;
+          if (newDir === 'V') { row = p.row - i; col = p.col + j; }
+          else { row = p.row + j; col = p.col - i; }
+
+          const result = canPlace(word, row, col, newDir);
+          if (result && result.ok) {
+            let score = 0;
+            for (let k = 0; k < word.length; k++) {
+              const r = newDir === 'V' ? row + k : row;
+              const c = newDir === 'H' ? col + k : col;
+              if (grid.has(key(r, c))) score++;
+            }
+            if (score > bestScore) {
+              bestScore = score;
+              best = { row, col, dir: newDir };
+            }
+          }
+        }
+      }
+    }
+
+    if (best) {
+      place(word, best.row, best.col, best.dir, entry);
+    } else {
+      // Fallback: place disconnected in the first open horizontal run found
+      outer:
+      for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c <= SIZE - word.length; c++) {
+          const result = canPlace(word, r, c, 'H');
+          if (result && result.ok) {
+            place(word, r, c, 'H', entry);
+            break outer;
+          }
+        }
+      }
     }
   }
 
-  // Assign projects to dies (spread around wafer, non-defective, non-edge)
-  const interior = dies.filter(d => !d.isDef && !d.isEdge);
-  // Pick spread positions
-  const assigned = pickSpreadDies(interior, PROJECTS.length);
-  assigned.forEach((die, i) => { die.projectIdx = i; });
-
-  syncWaferLinks();
-
-  // stats removed from DOM — counts are now hardcoded in the stats bar
-
-  cancelAnimationFrame(frameId);
-  renderLoop();
-}
-
-function pickSpreadDies(candidates, n) {
-  // Pick N dies distributed evenly across wafer
-  if (candidates.length <= n) return candidates.slice(0, n);
-  const result = [];
-  const used = new Set();
-  // Segment into n angular sectors
-  for (let i = 0; i < n; i++) {
-    const targetAngle = (i / n) * Math.PI * 2;
-    const targetDist  = 0.45 + (i % 3) * 0.12; // vary radially
-    const cx = waferCanvas.width / 2;
-    const cy = waferCanvas.height / 2;
-    const r  = (waferCanvas.width / 2) * targetDist;
-    const tx = cx + r * Math.cos(targetAngle);
-    const ty = cy + r * Math.sin(targetAngle);
-    let best = null, bestD = Infinity;
-    candidates.forEach((d, idx) => {
-      if (used.has(idx)) return;
-      const dd = Math.sqrt((d.dcx - tx)**2 + (d.dcy - ty)**2);
-      if (dd < bestD) { bestD = dd; best = idx; }
-    });
-    if (best !== null) { used.add(best); result.push(candidates[best]); }
+  // Trim to bounding box
+  let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+  for (const k of grid.keys()) {
+    const [r, c] = k.split(',').map(Number);
+    minR = Math.min(minR, r); maxR = Math.max(maxR, r);
+    minC = Math.min(minC, c); maxC = Math.max(maxC, c);
   }
-  return result;
+
+  // Number cells: a cell is numbered if it starts an across or down word
+  let num = 1;
+  const numberMap = new Map();
+  for (let r = minR; r <= maxR; r++) {
+    for (let c = minC; c <= maxC; c++) {
+      if (!grid.has(key(r, c))) continue;
+      const hasLeft = grid.has(key(r, c - 1));
+      const hasRight = grid.has(key(r, c + 1));
+      const hasUp = grid.has(key(r - 1, c));
+      const hasDown = grid.has(key(r + 1, c));
+      const startsAcross = !hasLeft && hasRight;
+      const startsDown = !hasUp && hasDown;
+      if (startsAcross || startsDown) numberMap.set(key(r, c), num++);
+    }
+  }
+
+  placements.forEach(p => {
+    p.number = numberMap.get(key(p.row, p.col));
+  });
+
+  return { grid, placements, minR, maxR, minC, maxC, key };
 }
 
-function renderLoop() {
-  waferCtx.clearRect(0, 0, waferSize, waferSize);
+/* ═══════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════ */
+const cwResult = buildCrossword(ENTRIES);
 
-  // Clip to circle
-  waferCtx.save();
-  waferCtx.beginPath();
-  waferCtx.arc(waferSize/2, waferSize/2, waferSize/2 - 1, 0, Math.PI*2);
-  waferCtx.clip();
+const entryCells = {};       // entry.id -> [cellEl, ...]
+const cellEntries = {};      // "r,c" -> { H: entry.id|null, V: entry.id|null }
+const cellInputEls = new Map(); // "r,c" -> <input>
 
-  // Wafer background gradient
-  const bg = waferCtx.createRadialGradient(
-    waferSize/2, waferSize/2, 0,
-    waferSize/2, waferSize/2, waferSize/2
-  );
-  bg.addColorStop(0,   'oklch(18% 0.02 260)');
-  bg.addColorStop(0.6, 'oklch(13% 0.015 260)');
-  bg.addColorStop(1,   'oklch(8% 0.01 260)');
-  waferCtx.fillStyle = bg;
-  waferCtx.fillRect(0, 0, waferSize, waferSize);
+let currentDir = 'H';
+let lastFocusKey = null;
+let mousedownKey = null;
+let selectedCells = [];
+let activeCell = null;
 
-  // Draw dies
-  dies.forEach(die => {
-    const isHovered  = hoveredDie === die;
-    const isProject  = die.projectIdx >= 0;
-    const isDefect   = die.isDef;
+function clearSelection() {
+  selectedCells.forEach(c => c.classList.remove('selected'));
+  selectedCells = [];
+  if (activeCell) activeCell.classList.remove('active');
+  activeCell = null;
+}
 
-    let baseColor, borderColor;
+function selectWord(entryId, cellEl) {
+  clearSelection();
+  selectedCells = entryCells[entryId] || [];
+  selectedCells.forEach(c => c.classList.add('selected'));
+  if (cellEl) {
+    activeCell = cellEl;
+    activeCell.classList.add('active');
+  }
+}
 
-    if (isDefect) {
-      baseColor  = 'rgba(80, 20, 20, 0.8)';
-      borderColor = 'rgba(150, 50, 50, 0.5)';
-    } else if (isProject) {
-      const proj = PROJECTS[die.projectIdx];
-      const hue  = getProjectHue(proj);
-      const [r,g,b] = oklchToRgb(0.18, 0.06, hue);
-      baseColor   = `rgba(${r},${g},${b},0.9)`;
-      const [br,bg2,bb] = oklchToRgb(0.65, 0.20, hue);
-      borderColor = `rgba(${br},${bg2},${bb},0.7)`;
-    } else if (die.isEdge) {
-      baseColor  = 'rgba(22,26,35,0.8)';
-      borderColor = 'rgba(45,52,68,0.6)';
-    } else {
-      baseColor  = 'rgba(24,28,40,0.85)';
-      borderColor = 'rgba(40,48,65,0.7)';
+// Find the input `delta` cells away from key `k` along direction `dir`,
+// staying within the bounds of the word that occupies that cell.
+function adjacentCellInput(k, dir, delta) {
+  const entryId = cellEntries[k] && cellEntries[k][dir];
+  if (!entryId) return null;
+  const placement = cwResult.placements.find(p => p.entry.id === entryId && p.dir === dir);
+  if (!placement) return null;
+  const [r, c] = k.split(',').map(Number);
+  const offset = (dir === 'H' ? c - placement.col : r - placement.row) + delta;
+  if (offset < 0 || offset >= placement.word.length) return null;
+  const nr = dir === 'V' ? placement.row + offset : placement.row;
+  const nc = dir === 'H' ? placement.col + offset : placement.col;
+  return cellInputEls.get(`${nr},${nc}`);
+}
+
+function renderCrossword() {
+  const { grid, placements, minR, maxR, minC, maxC, key } = cwResult;
+  const rows = maxR - minR + 1;
+  const cols = maxC - minC + 1;
+
+  const gridEl = document.getElementById('crossword-grid');
+  gridEl.style.gridTemplateColumns = `repeat(${cols}, var(--cw-cell))`;
+  gridEl.style.gridTemplateRows = `repeat(${rows}, var(--cw-cell))`;
+  gridEl.innerHTML = '';
+  cellInputEls.clear();
+  Object.keys(cellEntries).forEach(k => delete cellEntries[k]);
+  Object.keys(entryCells).forEach(k => delete entryCells[k]);
+
+  const cellEls = new Map();
+  for (let r = minR; r <= maxR; r++) {
+    for (let c = minC; c <= maxC; c++) {
+      if (!grid.has(key(r, c))) continue;
+      const k = key(r, c);
+      const cell = document.createElement('div');
+      cell.className = 'cw-cell';
+      cell.style.gridColumn = (c - minC + 1);
+      cell.style.gridRow = (r - minR + 1);
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'cw-input';
+      input.maxLength = 1;
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      input.setAttribute('autocapitalize', 'characters');
+      input.setAttribute('inputmode', 'text');
+      input.setAttribute('aria-label', 'crossword cell');
+      cell.appendChild(input);
+
+      gridEl.appendChild(cell);
+      cellEls.set(k, cell);
+      cellInputEls.set(k, input);
+      cellEntries[k] = { H: null, V: null };
     }
+  }
 
-    let dx = die.x, dy = die.y, ds = die.dieSize;
-
-    if (isHovered && !isDefect) {
-      const scale = 1.18;
-      const offset = (ds * (scale - 1)) / 2;
-      dx -= offset; dy -= offset; ds *= scale;
-
-      // Hover glow
-      const hue = isProject
-        ? getProjectHue(PROJECTS[die.projectIdx])
-        : currentPalette.h1;
-      const [gr, gg, gb] = oklchToRgb(0.72, 0.22, hue);
-      waferCtx.shadowColor = `rgba(${gr},${gg},${gb},0.9)`;
-      waferCtx.shadowBlur  = 16;
-    } else {
-      waferCtx.shadowBlur = 0;
+  placements.forEach(p => {
+    const cells = [];
+    for (let i = 0; i < p.word.length; i++) {
+      const r = p.dir === 'V' ? p.row + i : p.row;
+      const c = p.dir === 'H' ? p.col + i : p.col;
+      const k = key(r, c);
+      const cell = cellEls.get(k);
+      if (cell) cells.push(cell);
+      if (cellEntries[k]) cellEntries[k][p.dir] = p.entry.id;
     }
+    entryCells[p.entry.id] = cells;
 
-    waferCtx.fillStyle = baseColor;
-    waferCtx.fillRect(dx, dy, ds, ds);
-
-    waferCtx.strokeStyle = borderColor;
-    waferCtx.lineWidth   = isHovered ? 1 : 0.5;
-    waferCtx.strokeRect(dx, dy, ds, ds);
-
-    waferCtx.shadowBlur = 0;
-
-    // Project die accent — tiny dot
-    if (isProject && !isDefect) {
-      const hue = getProjectHue(PROJECTS[die.projectIdx]);
-      const [pr, pg, pb] = oklchToRgb(0.78, 0.22, hue);
-      waferCtx.fillStyle = `rgba(${pr},${pg},${pb},0.9)`;
-      waferCtx.beginPath();
-      waferCtx.arc(die.x + die.dieSize * 0.78, die.y + die.dieSize * 0.22, 2, 0, Math.PI * 2);
-      waferCtx.fill();
-    }
-
-    // Defect mark
-    if (isDefect) {
-      waferCtx.fillStyle = 'rgba(220,60,60,0.8)';
-      waferCtx.beginPath();
-      waferCtx.arc(die.x + die.dieSize/2, die.y + die.dieSize/2, 2, 0, Math.PI*2);
-      waferCtx.fill();
+    if (p.number) {
+      const startCell = cellEls.get(key(p.row, p.col));
+      if (startCell && !startCell.querySelector('.cw-num')) {
+        const label = document.createElement('span');
+        label.className = 'cw-num';
+        label.textContent = p.number;
+        label.dataset.category = p.entry.category;
+        label.style.color = categoryColor(p.entry.category, 0.75, 0.16);
+        startCell.appendChild(label);
+      }
     }
   });
 
-  // Notch
-  const cx2 = waferSize / 2;
-  waferCtx.fillStyle = 'oklch(10% 0.012 260)';
-  waferCtx.beginPath();
-  waferCtx.arc(cx2, waferSize + 8, 16, 0, Math.PI*2);
-  waferCtx.fill();
+  // Wire up click-to-select and typing
+  cellInputEls.forEach((input, k) => {
+    input.addEventListener('mousedown', () => { mousedownKey = k; });
 
-  waferCtx.restore();
+    input.addEventListener('focus', () => {
+      const entries = cellEntries[k];
+      let dir;
+      if (mousedownKey === k && k === lastFocusKey && entries.H && entries.V) {
+        dir = currentDir === 'H' ? 'V' : 'H';
+      } else if (entries[currentDir]) {
+        dir = currentDir;
+      } else {
+        dir = entries.H ? 'H' : 'V';
+      }
+      currentDir = dir;
+      lastFocusKey = k;
+      mousedownKey = null;
 
-  // Outer ring stroke
-  waferCtx.strokeStyle = 'oklch(30% 0.025 240)';
-  waferCtx.lineWidth   = 0.5;
-  waferCtx.beginPath();
-  waferCtx.arc(waferSize/2, waferSize/2, waferSize/2 - 1, 0, Math.PI*2);
-  waferCtx.stroke();
-
-  // Holographic overlay
-  renderHolo();
-
-  frameId = requestAnimationFrame(renderLoop);
-}
-
-/* ═══════════════════════════════════════════
-   HOLOGRAPHIC LIGHT ENGINE
-═══════════════════════════════════════════ */
-function renderHolo() {
-  holoCtx.clearRect(0, 0, waferSize, waferSize);
-
-  holoCtx.save();
-  holoCtx.beginPath();
-  holoCtx.arc(waferSize/2, waferSize/2, waferSize/2 - 2, 0, Math.PI*2);
-  holoCtx.clip();
-
-  // Thin film interference simulation
-  // Multiple radial gradients shifted by mouse position
-  const mx = mouseRelX;
-  const my = mouseRelY;
-  const t  = Date.now() / 1000;
-
-  // Layer 1: main iridescent sweep
-  const cx1 = waferSize * (0.2 + mx * 0.6);
-  const cy1 = waferSize * (0.2 + my * 0.6);
-
-  const grad1 = holoCtx.createRadialGradient(cx1, cy1, 0, cx1, cy1, waferSize * 0.7);
-  const hueShift = mx * 180 + my * 90 + t * 15;
-
-  const h1 = (hueShift) % 360;
-  const h2 = (hueShift + 60) % 360;
-  const h3 = (hueShift + 120) % 360;
-  const h4 = (hueShift + 200) % 360;
-
-  grad1.addColorStop(0,   hueToColor(h1, 0.55 * holoIntensity));
-  grad1.addColorStop(0.3, hueToColor(h2, 0.35 * holoIntensity));
-  grad1.addColorStop(0.6, hueToColor(h3, 0.25 * holoIntensity));
-  grad1.addColorStop(1,   hueToColor(h4, 0.05 * holoIntensity));
-
-  holoCtx.fillStyle = grad1;
-  holoCtx.fillRect(0, 0, waferSize, waferSize);
-
-  // Layer 2: specular highlight
-  const sx  = waferSize * (0.1 + mx * 0.8);
-  const sy  = waferSize * (0.1 + my * 0.8);
-  const grad2 = holoCtx.createRadialGradient(sx, sy, 0, sx, sy, waferSize * 0.25);
-  grad2.addColorStop(0,   `rgba(255,255,255,${0.25 * holoIntensity})`);
-  grad2.addColorStop(0.5, `rgba(255,255,255,${0.05 * holoIntensity})`);
-  grad2.addColorStop(1,   'rgba(255,255,255,0)');
-  holoCtx.fillStyle = grad2;
-  holoCtx.fillRect(0, 0, waferSize, waferSize);
-
-  // Layer 3: concentric diffraction rings
-  const ringCount = 8;
-  for (let i = 0; i < ringCount; i++) {
-    const rh = (h1 + i * 45) % 360;
-    const [rr, rg, rb] = oklchToRgb(0.72, 0.20, rh);
-    const ringR  = (waferSize / 2) * (0.15 + i * 0.11);
-    const ring = holoCtx.createRadialGradient(
-      waferSize/2, waferSize/2, ringR - 6,
-      waferSize/2, waferSize/2, ringR + 6
-    );
-    ring.addColorStop(0,   `rgba(${rr},${rg},${rb},0)`);
-    ring.addColorStop(0.5, `rgba(${rr},${rg},${rb},${0.06 * holoIntensity})`);
-    ring.addColorStop(1,   `rgba(${rr},${rg},${rb},0)`);
-    holoCtx.fillStyle = ring;
-    holoCtx.fillRect(0, 0, waferSize, waferSize);
-  }
-
-  holoCtx.restore();
-}
-
-function syncWaferLinks() {
-  waferLinkLayer.innerHTML = '';
-
-  dies
-    .filter(die => die.projectIdx >= 0 && !die.isDef)
-    .forEach(die => {
-      const proj = PROJECTS[die.projectIdx];
-      const primaryLink = proj.links[0];
-      const link = document.createElement('a');
-
-      link.className = 'wafer-die-link';
-      link.href = primaryLink.href;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.setAttribute('aria-label', `${proj.title} — ${primaryLink.label}`);
-      link.title = `${proj.title} — ${primaryLink.label}`;
-      link.style.left = `${die.x}px`;
-      link.style.top = `${die.y}px`;
-      link.style.width = `${die.dieSize}px`;
-      link.style.height = `${die.dieSize}px`;
-
-      link.addEventListener('mouseenter', e => {
-        hoveredDie = die;
-        updateMouseRelFromClient(e.clientX, e.clientY);
-        showTooltip(die, e.clientX, e.clientY);
-        probeDie(die);
-      });
-
-      link.addEventListener('mousemove', e => {
-        hoveredDie = die;
-        updateMouseRelFromClient(e.clientX, e.clientY);
-        showTooltip(die, e.clientX, e.clientY);
-      });
-
-      link.addEventListener('mouseleave', () => {
-        hoveredDie = null;
-        hideTooltip();
-        probeDie(null);
-      });
-
-      link.addEventListener('focus', () => {
-        const rect = link.getBoundingClientRect();
-        hoveredDie = die;
-        showTooltip(die, rect.left + rect.width / 2, rect.top + rect.height / 2);
-        probeDie(die);
-      });
-
-      link.addEventListener('blur', () => {
-        hoveredDie = null;
-        hideTooltip();
-        probeDie(null);
-      });
-
-      link.addEventListener('click', e => {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        e.preventDefault();
-        launchProject(die);
-      });
-
-      waferLinkLayer.appendChild(link);
+      const entryId = entries[dir];
+      if (entryId) selectWord(entryId, input.parentElement);
+      setTimeout(() => input.select(), 0);
     });
+
+    input.addEventListener('input', () => {
+      const clean = input.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(-1);
+      input.value = clean;
+      if (clean) {
+        const next = adjacentCellInput(k, currentDir, 1);
+        if (next) next.focus();
+      }
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Backspace') {
+        if (!input.value) {
+          e.preventDefault();
+          const prev = adjacentCellInput(k, currentDir, -1);
+          if (prev) { prev.value = ''; prev.focus(); }
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const dir = (e.key === 'ArrowLeft' || e.key === 'ArrowRight') ? 'H' : 'V';
+        const delta = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : -1;
+        const [r, c] = k.split(',').map(Number);
+        const nk = dir === 'H' ? `${r},${c + delta}` : `${r + delta},${c}`;
+        const target = cellInputEls.get(nk);
+        if (target) { currentDir = dir; target.focus(); }
+      }
+    });
+  });
 }
 
-/* ═══════════════════════════════════════════
-   INTERACTION
-═══════════════════════════════════════════ */
-const tooltip = document.getElementById('die-tooltip');
-
-function getDieAt(ex, ey) {
-  const rect = waferCanvas.getBoundingClientRect();
-  const px   = (ex - rect.left) * (waferSize / rect.width);
-  const py   = (ey - rect.top)  * (waferSize / rect.height);
-  for (let i = dies.length - 1; i >= 0; i--) {
-    const d = dies[i];
-    if (px >= d.x && px <= d.x + d.dieSize && py >= d.y && py <= d.y + d.dieSize) return d;
-  }
-  return null;
+function recolorCrosswordNumbers() {
+  document.querySelectorAll('.cw-num').forEach(el => {
+    el.style.color = categoryColor(el.dataset.category, 0.75, 0.16);
+  });
 }
 
-waferCanvas.addEventListener('mousemove', e => {
-  const rect = waferCanvas.getBoundingClientRect();
-  mouseRelX  = (e.clientX - rect.left) / rect.width;
-  mouseRelY  = (e.clientY - rect.top)  / rect.height;
-  mouseX     = e.clientX;
-  mouseY     = e.clientY;
-
-  const die = getDieAt(e.clientX, e.clientY);
-  hoveredDie = die;
-
-  if (die && !die.isDef) {
-    showTooltip(die, e.clientX, e.clientY);
-  } else {
-    hideTooltip();
-  }
-});
-
-waferCanvas.addEventListener('mouseleave', () => {
-  hoveredDie = null;
-  mouseRelX  = 0.5;
-  mouseRelY  = 0.5;
-  hideTooltip();
-});
-
-function showTooltip(die, cx, cy) {
-  const isProj = die.projectIdx >= 0;
-  document.getElementById('tt-id').textContent    = `DIE ${die.addr} · ROW ${die.row} · COL ${die.col}`;
-  document.getElementById('tt-title').textContent = isProj ? PROJECTS[die.projectIdx].title : 'Functional Die';
-  document.getElementById('tt-meta').textContent  = isProj
-    ? PROJECTS[die.projectIdx].tags.join(' · ')
-    : `Logic State: ${die.isEdge ? 'EDGE' : 'NOMINAL'}`;
-  document.getElementById('tt-state').textContent = isProj
-    ? `STATE: ${PROJECTS[die.projectIdx].state}`
-    : `ADDR: ${die.addr}`;
-
-  // Position
-  const tw = 180, th = 90;
-  let tx = cx + 16, ty = cy - th / 2;
-  if (tx + tw > window.innerWidth - 16) tx = cx - tw - 16;
-  if (ty < 8) ty = 8;
-  if (ty + th > window.innerHeight - 8) ty = window.innerHeight - th - 8;
-
-  tooltip.style.left    = tx + 'px';
-  tooltip.style.top     = ty + 'px';
-  tooltip.classList.add('visible');
+function highlightEntry(id, on) {
+  (entryCells[id] || []).forEach(cell => cell.classList.toggle('highlight', on));
 }
 
-function hideTooltip() {
-  tooltip.classList.remove('visible');
+function renderClues() {
+  const across = document.getElementById('clues-across');
+  const down = document.getElementById('clues-down');
+  across.innerHTML = '';
+  down.innerHTML = '';
+
+  const sortedPlacements = [...cwResult.placements].sort((a, b) => a.number - b.number);
+
+  sortedPlacements.forEach(p => {
+    const li = document.createElement('li');
+    li.className = 'clue-item';
+    li.tabIndex = 0;
+
+    const numEl = document.createElement('span');
+    numEl.className = 'clue-num';
+    numEl.textContent = p.number;
+    numEl.style.color = categoryColor(p.entry.category, 0.75, 0.16);
+
+    const textEl = document.createElement('span');
+    textEl.className = 'clue-text';
+    textEl.textContent = p.entry.clue;
+
+    li.appendChild(numEl);
+    li.appendChild(textEl);
+
+    li.addEventListener('mouseenter', () => highlightEntry(p.entry.id, true));
+    li.addEventListener('mouseleave', () => highlightEntry(p.entry.id, false));
+    li.addEventListener('click', () => openEntry(p.entry, p));
+    li.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEntry(p.entry, p); }
+    });
+
+    (p.dir === 'H' ? across : down).appendChild(li);
+  });
+}
+
+function renderAnswerKey() {
+  const grid = document.getElementById('answer-grid');
+  grid.innerHTML = '';
+
+  const sortedPlacements = [...cwResult.placements].sort((a, b) => a.number - b.number);
+
+  sortedPlacements.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'answer-item';
+    item.tabIndex = 0;
+
+    const numEl = document.createElement('span');
+    numEl.className = 'answer-num';
+    numEl.textContent = `${p.number}${p.dir === 'H' ? 'A' : 'D'}`;
+
+    const wordEl = document.createElement('span');
+    wordEl.className = 'answer-word';
+    wordEl.textContent = p.word;
+
+    item.appendChild(numEl);
+    item.appendChild(wordEl);
+
+    item.addEventListener('mouseenter', () => highlightEntry(p.entry.id, true));
+    item.addEventListener('mouseleave', () => highlightEntry(p.entry.id, false));
+    item.addEventListener('click', () => openEntry(p.entry, p));
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEntry(p.entry, p); }
+    });
+
+    grid.appendChild(item);
+  });
+}
+
+function renderLegend() {
+  document.querySelectorAll('.legend-dot').forEach(dot => {
+    dot.style.background = categoryColor(dot.dataset.category, 0.72, 0.20);
+  });
 }
 
 /* ═══════════════════════════════════════════
@@ -2029,26 +1755,26 @@ function hideTooltip() {
 ═══════════════════════════════════════════ */
 const overlay = document.getElementById('project-overlay');
 
-function openProject(die) {
-  const proj = PROJECTS[die.projectIdx];
-  document.getElementById('panel-die-id').textContent   = `DIE ${die.addr} · ${proj.state}`;
-  document.getElementById('panel-title').textContent    = proj.title;
-  document.getElementById('panel-subtitle').textContent = proj.subtitle;
-  document.getElementById('panel-desc').textContent     = proj.description;
+function openEntry(entry, placement) {
+  document.getElementById('panel-die-id').textContent = placement
+    ? `${placement.number}${placement.dir === 'H' ? ' ACROSS' : ' DOWN'} · ${entry.category.toUpperCase()}`
+    : entry.category.toUpperCase();
+  document.getElementById('panel-die-id').style.color = categoryColor(entry.category, 0.75, 0.18);
+  document.getElementById('panel-title').textContent = entry.title;
+  document.getElementById('panel-subtitle').textContent = entry.subtitle;
+  document.getElementById('panel-desc').textContent = entry.description;
 
-  // Tags
   const tagsEl = document.getElementById('panel-tags');
   tagsEl.innerHTML = '';
-  proj.tags.forEach(t => {
+  entry.tags.forEach(t => {
     const tag = document.createElement('span');
-    tag.className   = 'tag'; tag.textContent = t;
+    tag.className = 'tag'; tag.textContent = t;
     tagsEl.appendChild(tag);
   });
 
-  // Specs
   const specsEl = document.getElementById('panel-specs');
   specsEl.innerHTML = '';
-  Object.entries(proj.specs).forEach(([k, v]) => {
+  Object.entries(entry.specs).forEach(([k, v]) => {
     specsEl.innerHTML += `
       <div class="spec-item">
         <div class="spec-label">${k}</div>
@@ -2056,10 +1782,9 @@ function openProject(die) {
       </div>`;
   });
 
-  // Actions
   const actEl = document.getElementById('panel-actions');
   actEl.innerHTML = '';
-  proj.links.forEach((linkObj, i) => {
+  entry.links.forEach((linkObj, i) => {
     const link = document.createElement('a');
     link.className = i === 0 ? 'btn-primary' : 'btn-secondary';
     link.textContent = linkObj.label;
@@ -2069,13 +1794,7 @@ function openProject(die) {
     actEl.appendChild(link);
   });
 
-  hideTooltip();
   overlay.classList.add('open');
-}
-
-function launchProject(die) {
-  hideTooltip();
-  microscopeZoom(die, () => openProject(die));
 }
 
 document.getElementById('panel-close').addEventListener('click', () => {
@@ -2091,235 +1810,25 @@ document.addEventListener('keydown', e => {
 });
 
 /* ═══════════════════════════════════════════
-   TWEAKS
+   TWEAKS — ACCENT PALETTE
 ═══════════════════════════════════════════ */
-document.getElementById('tw-holo').addEventListener('input', e => {
-  holoIntensity = e.target.value / 100;
-});
-
 document.getElementById('tw-accent').addEventListener('change', e => {
   currentPalette = ACCENT_PALETTES[e.target.value] || ACCENT_PALETTES.cyan;
+  recolorCrosswordNumbers(); // avoid rebuilding the grid so in-progress typing isn't lost
+  renderClues();
+  renderAnswerKey();
+  renderLegend();
 });
-
-function setDieSize(sz) {
-  currentDieSize = sz;
-  document.querySelectorAll('.tweak-seg-btn').forEach(btn => {
-    if (btn.textContent === ({22:'XS',28:'MD',36:'LG'}[sz])) btn.classList.add('active');
-  });
-  setupWafer();
-}
-
-function setRing(on) {
-  ringEnabled = on;
-  const ring = document.querySelector('.wafer-ring');
-  ring.style.animationPlayState = on ? 'running' : 'paused';
-  ring.style.opacity = on ? '0.35' : '0.12';
-}
-
-/* ═══════════════════════════════════════════
-   PROBE STATION — LOG MANAGER
-═══════════════════════════════════════════ */
-const probeStation  = document.getElementById('probe-station');
-const probeBody     = document.getElementById('probe-body');
-const probeAddr     = document.getElementById('probe-addr');
-
-let probeTypeTimer  = null;
-let probeHideTimer  = null;
-let lastProbedDie   = null;
-
-// Generate diagnostic log lines for a die
-function buildDiagLines(die) {
-  const ts = () => {
-    const now = new Date();
-    return `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}.${String(now.getMilliseconds()).padStart(3,'0')}`;
-  };
-
-  if (die.isDef) {
-    return [
-      { cls: 'error', text: `[${ts()}] [ERROR] Die ${die.addr} — DEFECT DETECTED` },
-      { cls: 'error', text: `[${ts()}] [ERROR] Carrier mobility: DEGRADED — oxide trap density high` },
-      { cls: 'warn',  text: `[${ts()}] [WARN]  Isolation boundary: BREACHED at (${die.col}, ${die.row})` },
-      { cls: 'dim',   text: `[${ts()}] [INFO]  Die flagged for exclusion zone. Yield impact: −0.12%` },
-    ];
-  }
-
-  if (die.projectIdx >= 0) {
-    const proj = PROJECTS[die.projectIdx];
-    const cat  = proj.category;
-    const stack = proj.tags.slice(0,3).join(' / ');
-
-    const catLines = {
-      experience: [
-        { cls: 'info',  text: `[${ts()}] [INFO]  Probing Die ${die.addr}... EXPERIENCE NODE: ${proj.id}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Role: ${proj.title.split('—')[1]?.trim() ?? proj.title}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Stack: ${stack}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Impact: ${Object.values(proj.specs)[0]} / ${Object.values(proj.specs)[1]}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Logic state: ${proj.state}` },
-      ],
-      project: [
-        { cls: 'info',  text: `[${ts()}] [INFO]  Probing Die ${die.addr}... PROJECT NODE: ${proj.id}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Stack: ${stack}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Deploy: ${proj.specs['Deploy'] ?? proj.specs['Platforms'] ?? 'Local'}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Status: SHIPPED / Health: 200 OK` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Logic state: ${proj.state}` },
-      ],
-      award: [
-        { cls: 'warn',  text: `[${ts()}] [AWARD] Probing Die ${die.addr}... RECOGNITION NODE: ${proj.id}` },
-        { cls: 'warn',  text: `[${ts()}] [AWARD] ${proj.title}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Year: ${proj.specs['Year']} / Prize: ${proj.specs['Prize'] ?? 'Regional Honor'}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Logic state: ${proj.state}` },
-      ],
-      leadership: [
-        { cls: 'info',  text: `[${ts()}] [INFO]  Probing Die ${die.addr}... LEADERSHIP NODE: ${proj.id}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Role: ${proj.title.split('—')[1]?.trim() ?? proj.title}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] ${Object.entries(proj.specs).map(([k,v])=>`${k}: ${v}`).join(' / ')}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] Logic state: ${proj.state}` },
-      ],
-      education: [
-        { cls: 'info',  text: `[${ts()}] [INFO]  Probing Die ${die.addr}... EDUCATION NODE: ${proj.id}` },
-        { cls: 'info',  text: `[${ts()}] [INFO]  Program: ${proj.specs['Degree']}` },
-        { cls: 'debug', text: `[${ts()}] [DEBUG] ${Object.entries(proj.specs).map(([k,v])=>`${k}: ${v}`).join(' / ')}` },
-        { cls: 'dim',   text: `[${ts()}] [INFO]  Status: ENROLLED / Academic record: VERIFIED` },
-      ],
-    };
-    return catLines[cat] ?? catLines.experience;
-  }
-
-  // Generic functional die
-  const volt = (0.85 + Math.random() * 0.15).toFixed(3);
-  const temp = (22 + Math.random() * 8).toFixed(1);
-  return [
-    { cls: 'info',  text: `[${ts()}] [INFO]  Probing Die ${die.addr}... FUNCTIONAL` },
-    { cls: 'debug', text: `[${ts()}] [DEBUG] Vdd: ${volt}V / Tj: ${temp}°C` },
-    { cls: 'debug', text: `[${ts()}] [DEBUG] Logic gate: ${die.isEdge ? 'EDGE_CELL' : 'CORE_LOGIC'} / State: OK` },
-    { cls: 'info',  text: `[${ts()}] [INFO]  No experience assigned — standard cell region` },
-  ];
-}
-
-function probeTypeLines(lines) {
-  probeBody.innerHTML = '';
-  clearTimeout(probeTypeTimer);
-
-  lines.forEach((line, i) => {
-    const el = document.createElement('span');
-    el.className = `probe-line ${line.cls}`;
-    el.textContent = line.text;
-    probeBody.appendChild(el);
-
-    // Stagger reveal
-    setTimeout(() => el.classList.add('show'), i * 90);
-  });
-
-  // Add blinking cursor after last line
-  setTimeout(() => {
-    const cur = document.createElement('span');
-    cur.className = `probe-line dim show`;
-    cur.innerHTML = `<span class="probe-cursor"></span>`;
-    probeBody.appendChild(cur);
-  }, lines.length * 90);
-}
-
-function probeDie(die) {
-  if (die === lastProbedDie) return;
-  lastProbedDie = die;
-
-  clearTimeout(probeHideTimer);
-  probeStation.classList.add('visible');
-  probeAddr.textContent = die
-    ? `PROBING: ${die.addr} · ROW ${die.row} · COL ${die.col}`
-    : 'IDLE — HOVER A DIE TO PROBE';
-
-  if (die) {
-    probeTypeLines(buildDiagLines(die));
-  } else {
-    probeBody.innerHTML = '<span class="probe-line dim show">// Probe station ready. Awaiting die selection...</span>';
-    probeHideTimer = setTimeout(() => {
-      probeStation.classList.remove('visible');
-      lastProbedDie = null;
-    }, 1200);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   MICROSCOPE ZOOM TRANSITION
-═══════════════════════════════════════════ */
-const scopeCircle = document.getElementById('scope-circle');
-let zoomAnimFrame = null;
-
-function microscopeZoom(die, onComplete) {
-  // Get die position on screen
-  const rect    = waferCanvas.getBoundingClientRect();
-  const scaleX  = rect.width  / waferSize;
-  const scaleY  = rect.height / waferSize;
-
-  const screenX = rect.left + die.dcx * scaleX;
-  const screenY = rect.top  + die.dcy * scaleY;
-
-  // Max radius needed to fill viewport
-  const maxR = Math.hypot(
-    Math.max(screenX, window.innerWidth  - screenX),
-    Math.max(screenY, window.innerHeight - screenY)
-  ) * 2.2;
-
-  // Get hue for accent color
-  const hue = die.projectIdx >= 0
-    ? getProjectHue(PROJECTS[die.projectIdx])
-    : currentPalette.h1;
-  const [cr, cg, cb] = oklchToRgb(0.22, 0.12, hue);
-  const [hr, hg, hb] = oklchToRgb(0.75, 0.22, hue);
-
-  // Position circle at die
-  scopeCircle.style.cssText = `
-    left: ${screenX}px; top: ${screenY}px;
-    width: 0; height: 0;
-    margin-left: 0; margin-top: 0;
-    background: radial-gradient(circle at center, rgba(${hr},${hg},${hb},0.95), rgba(${cr},${cg},${cb},0.98));
-    border-radius: 50%;
-    transform: scale(1); opacity: 1; position: absolute;
-    box-shadow: 0 0 60px rgba(${hr},${hg},${hb},0.6);
-  `;
-
-  const startTime = performance.now();
-  const duration  = 520; // ms
-
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-  function animFrame(now) {
-    const t   = Math.min((now - startTime) / duration, 1);
-    const e   = easeOut(t);
-    const r   = e * maxR;
-    const dia = r * 2;
-
-    scopeCircle.style.width      = dia + 'px';
-    scopeCircle.style.height     = dia + 'px';
-    scopeCircle.style.marginLeft = -r + 'px';
-    scopeCircle.style.marginTop  = -r + 'px';
-    scopeCircle.style.opacity    = t < 0.9 ? '1' : String(1 - (t - 0.9) / 0.1);
-
-    if (t < 1) {
-      zoomAnimFrame = requestAnimationFrame(animFrame);
-    } else {
-      scopeCircle.style.width  = '0';
-      scopeCircle.style.height = '0';
-      scopeCircle.style.opacity = '0';
-      if (onComplete) onComplete();
-    }
-  }
-
-  zoomAnimFrame = requestAnimationFrame(animFrame);
-}
 
 /* ═══════════════════════════════════════════
    PERFORMANCE MARKER
 ═══════════════════════════════════════════ */
 (function initPerfMarker() {
-  const t0 = window.__pageLoadStart || performance.timing?.navigationStart || performance.now();
-
   function markRender() {
     const renderMs = Math.round(performance.now());
-    const stable   = renderMs < 3000;
-    document.getElementById('render-time').textContent    = renderMs + 'ms';
-    document.getElementById('system-stable').textContent  = stable ? 'TRUE' : 'DEGRADED';
+    const stable = renderMs < 3000;
+    document.getElementById('render-time').textContent = renderMs + 'ms';
+    document.getElementById('system-stable').textContent = stable ? 'TRUE' : 'DEGRADED';
     document.getElementById('system-stable').style.color = stable
       ? 'oklch(72% 0.18 160)'
       : 'oklch(72% 0.18 55)';
@@ -2330,135 +1839,24 @@ function microscopeZoom(die, onComplete) {
 })();
 
 /* ═══════════════════════════════════════════
-   HOOK PROBE INTO WAFER HOVER
-   (patch existing mousemove / mouseleave)
-═══════════════════════════════════════════ */
-// We re-hook the canvas events to also fire probe
-waferCanvas.addEventListener('mousemove', e => {
-  const die = getDieAt(e.clientX, e.clientY);
-  probeDie(die || null);
-});
-
-waferCanvas.addEventListener('mouseleave', () => {
-  probeDie(null);
-});
-
-/* ═══════════════════════════════════════════
-   HOOK MICROSCOPE ZOOM INTO CLICK
-   Override openProject to add zoom first
-═══════════════════════════════════════════ */
-waferCanvas.addEventListener('click', e => {
-  const die = getDieAt(e.clientX, e.clientY);
-  if (die && die.projectIdx >= 0) {
-    launchProject(die);
-  }
-});
-
-/* ═══════════════════════════════════════════
-   DEPLOY STATUS TICKER
-═══════════════════════════════════════════ */
-(function deployTicker() {
-  const messages = [
-    'STATUS: DEPLOYING TO BOSTON_NODE // SEMICONDUCTOR_MASTERS: PENDING_START @ NORTHEASTERN',
-    'STATUS: NSBE_CHAPTER // MEMBERSHIP +300% // FUNDING $15K+ SECURED',
-    'STATUS: APPLE_BLACK_HARDWARE_AWARD: 1ST_PLACE // PRIZE: $5,000',
-    'STATUS: MATCH_GROUP // MAU_PROJECTION +8% // STORIES: 45 JIRA',
-    'STATUS: NTXSI_OUTREACH // K12_STUDENTS: REACHED // SEMICONDUCTOR: ACTIVE',
-  ];
-  let idx = 0;
-  const el = document.getElementById('nav-deploy-text');
-
-  function cycle() {
-    idx = (idx + 1) % messages.length;
-    el.style.opacity = '0';
-    setTimeout(() => {
-      el.textContent  = messages[idx];
-      el.style.opacity = '1';
-    }, 300);
-  }
-
-  el.style.transition = 'opacity 0.3s';
-  setInterval(cycle, 4000);
-})();
-
-/* ═══════════════════════════════════════════
-   TOUCH SUPPORT (mobile)
-═══════════════════════════════════════════ */
-waferCanvas.addEventListener('touchstart', e => {
-  e.preventDefault();
-  const t = e.touches[0];
-  const die = getDieAt(t.clientX, t.clientY);
-  if (die && !die.isDef) {
-    hoveredDie = die;
-    probeDie(die);
-    showTooltip(die, t.clientX, t.clientY);
-  }
-}, { passive: false });
-
-waferCanvas.addEventListener('touchmove', e => {
-  e.preventDefault();
-  const t = e.touches[0];
-  const rect = waferCanvas.getBoundingClientRect();
-  mouseRelX = (t.clientX - rect.left) / rect.width;
-  mouseRelY = (t.clientY - rect.top)  / rect.height;
-
-  const die = getDieAt(t.clientX, t.clientY);
-  hoveredDie = die;
-  if (die && !die.isDef) {
-    probeDie(die);
-    showTooltip(die, t.clientX, t.clientY);
-  } else {
-    hideTooltip();
-  }
-}, { passive: false });
-
-waferCanvas.addEventListener('touchend', e => {
-  e.preventDefault();
-  const t = e.changedTouches[0];
-  const die = getDieAt(t.clientX, t.clientY);
-  hideTooltip();
-  hoveredDie = null;
-
-  if (die && die.projectIdx >= 0) {
-    launchProject(die);
-  } else {
-    probeDie(null);
-    mouseRelX = 0.5; mouseRelY = 0.5;
-  }
-}, { passive: false });
-
-/* ═══════════════════════════════════════════
    TWEAKS PANEL HOST PROTOCOL
 ═══════════════════════════════════════════ */
 const tweaksPanel = document.getElementById('tweaks-panel');
 
 window.addEventListener('message', e => {
-  if (e.data?.type === '__activate_edit_mode')   tweaksPanel.classList.add('visible');
+  if (e.data?.type === '__activate_edit_mode') tweaksPanel.classList.add('visible');
   if (e.data?.type === '__deactivate_edit_mode') tweaksPanel.classList.remove('visible');
 });
 
 window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 
 /* ═══════════════════════════════════════════
-   GLOBAL MOUSE for holo off-canvas
-═══════════════════════════════════════════ */
-document.addEventListener('mousemove', e => {
-  const rect = waferCanvas.getBoundingClientRect();
-  if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
-    mouseRelX = 0.5; mouseRelY = 0.5;
-  }
-});
-
-/* ═══════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  setupWafer();
-});
-
-window.addEventListener('resize', () => {
-  setupWafer();
-});
+renderCrossword();
+renderClues();
+renderAnswerKey();
+renderLegend();
 </script>
 </body>
 </html>
