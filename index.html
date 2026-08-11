@@ -21,10 +21,10 @@
   --text-secondary: oklch(60% 0.012 240);
   --text-mono:      oklch(70% 0.030 27);
 
-  --accent-red:    oklch(48% 0.22 27);
-  --accent-violet:  oklch(56.261% 0.25905 288.87);
+  --accent-red:     oklch(48% 0.22 27);
+  --accent-purple:  oklch(56.261% 0.25905 310);
   --accent-gold:    oklch(78% 0.18 55);
-  --accent-teal:    oklch(75% 0.22 170);
+  --accent-green:   oklch(75% 0.22 145);
   --accent-blue:    oklch(62.855% 0.20054 254.074);
 
   --line-subtle:    oklch(25% 0.015 260);
@@ -117,8 +117,8 @@ nav {
 
 .status-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent-teal);
-  box-shadow: 0 0 8px var(--accent-teal);
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
   animation: pulse 2s ease-in-out infinite;
   display: inline-block; margin-right: 8px;
 }
@@ -188,17 +188,17 @@ nav {
 }
 
 .cw-cell.highlight {
-  background: oklch(24% 0.05 200);
-  box-shadow: inset 0 0 0 1px var(--accent-teal);
+  background: oklch(24% 0.05 145);
+  box-shadow: inset 0 0 0 1px var(--accent-green);
 }
 
 .cw-cell.selected {
-  background: oklch(20% 0.035 200);
+  background: oklch(20% 0.035 145);
 }
 
 .cw-cell.active {
-  background: oklch(27% 0.06 200);
-  box-shadow: inset 0 0 0 2px var(--accent-teal);
+  background: oklch(27% 0.06 145);
+  box-shadow: inset 0 0 0 2px var(--accent-green);
 }
 
 .cw-num {
@@ -222,12 +222,12 @@ nav {
   font-weight: 600;
   color: var(--text-primary);
   text-transform: uppercase;
-  caret-color: var(--accent-teal);
+  caret-color: var(--accent-green);
   cursor: pointer;
 }
 
 .cw-input::selection {
-  background: var(--accent-teal);
+  background: var(--accent-green);
   color: var(--bg-deep);
 }
 
@@ -242,22 +242,24 @@ nav {
 .clue-heading {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
-  color: var(--accent-teal);
+  color: var(--text-primary);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 10px;
   padding-bottom: 8px;
   border-bottom: 0.5px solid var(--line-subtle);
+  text-align: center;
 }
 
 .clue-list { list-style: none; }
 
 .clue-item {
-  display: flex; align-items: baseline; gap: 10px;
+  display: flex; align-items: baseline; justify-content: center; gap: 10px;
   padding: 8px 4px;
   border-bottom: 0.5px solid var(--line-subtle);
   cursor: pointer;
   transition: background 0.15s;
+  text-align: center;
 }
 
 .clue-item:hover, .clue-item:focus-visible {
@@ -290,7 +292,7 @@ nav {
 }
 
 .answer-item {
-  display: flex; align-items: baseline; gap: 8px;
+  display: flex; align-items: baseline; justify-content: center; gap: 8px;
   padding: 9px 12px;
   border: 0.5px solid var(--line-subtle);
   border-radius: 4px;
@@ -300,14 +302,14 @@ nav {
 }
 
 .answer-item:hover, .answer-item:focus-visible {
-  border-color: var(--accent-teal);
+  border-color: var(--accent-green);
   transform: translateY(-1px);
 }
 
 .answer-num {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 600;
-  color: var(--accent-teal);
+  color: var(--text-secondary); /* per-category color applied in renderAnswerKey */
   flex-shrink: 0;
 }
 
@@ -359,14 +361,15 @@ nav {
 }
 
 .panel-header {
-  padding: 28px 32px 20px;
+  padding: 28px 72px 20px;
   border-bottom: 0.5px solid var(--line-subtle);
   position: relative;
+  text-align: center;
 }
 
 .panel-die-id {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--accent-teal);
+  font-size: 10px; color: var(--text-secondary); /* per-category color applied in openEntry */
   letter-spacing: 0.15em; margin-bottom: 8px;
 }
 
@@ -401,10 +404,11 @@ nav {
 .panel-body {
   padding: 24px 32px 32px;
   display: flex; flex-direction: column; gap: 20px;
+  text-align: center;
 }
 
 .panel-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
 }
 
 .tag {
@@ -421,6 +425,7 @@ nav {
   font-size: 14px; line-height: 1.7;
   color: var(--text-secondary);
   font-weight: 400;
+  text-align: center;
 }
 
 .panel-specs {
@@ -431,6 +436,7 @@ nav {
   background: var(--bg-elevated);
   border: 0.5px solid var(--line-subtle);
   border-radius: 4px; padding: 12px 14px;
+  text-align: center;
 }
 
 .spec-label {
@@ -447,7 +453,7 @@ nav {
 }
 
 .panel-actions {
-  display: flex; gap: 12px; flex-wrap: wrap;
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
 }
 
 .btn-primary {
@@ -482,8 +488,8 @@ nav {
 }
 
 .btn-secondary:hover {
-  border-color: var(--accent-violet);
-  color: var(--accent-violet);
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
 }
 
 /* ═══════════════════════════════════════════
@@ -505,7 +511,7 @@ nav {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(11px, 1.5vw, 14px);
   font-weight: 400;
-  color: var(--accent-teal);
+  color: var(--text-primary);
   letter-spacing: 0.1em;
   margin-top: 10px;
   display: block;
@@ -603,25 +609,27 @@ nav {
 .about-strip {
   padding: 60px 40px;
   border-top: 0.5px solid var(--line-subtle);
-  display: flex; gap: 80px; align-items: flex-start;
+  display: flex; flex-direction: column; gap: 24px; align-items: center;
   max-width: 1200px; margin: 0 auto; width: 100%;
+  text-align: center;
 }
 
 .about-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
-  color: var(--accent-red); letter-spacing: 0.15em;
+  color: var(--text-primary); letter-spacing: 0.15em;
   text-transform: uppercase; white-space: nowrap;
-  padding-top: 4px; min-width: 120px;
-  justify-content: center;
+  text-align: center;
 }
 
-.about-content { flex: 1; }
+.about-content { width: 100%; }
 
 .about-content p {
   font-size: 15px; line-height: 1.75;
   color: var(--text-secondary); font-weight: 400;
   max-width: 560px;
+  margin-left: auto; margin-right: auto;
+  text-align: center;
 }
 
 .about-content p + p { margin-top: 14px; }
@@ -686,7 +694,7 @@ footer .footer-perf {
 .tweaks-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
-  color: var(--accent-red); letter-spacing: 0.15em;
+  color: var(--text-primary); letter-spacing: 0.15em;
   text-transform: uppercase; margin-bottom: 4px;
 }
 
@@ -797,7 +805,7 @@ footer .footer-perf {
     max-height: 85vh;
   }
 
-  .panel-header { padding: 20px 18px 16px; }
+  .panel-header { padding: 20px 60px 16px; }
   .panel-body   { padding: 16px 18px 24px; }
   .panel-title  { font-size: 20px; }
 
@@ -927,11 +935,11 @@ footer .footer-perf {
       </p>
       <p>
         Every word in this crossword is a real experience.
-        <span style="color:oklch(48% 0.22 27)">■ Red</span> = work experience &nbsp;
-        <span style="color:oklch(75% 0.22 290)">■ Violet</span> = projects &nbsp;
-        <span style="color:oklch(78% 0.18 55)">■ Gold</span> = awards &nbsp;
-        <span style="color:oklch(75% 0.22 170)">■ Teal</span> = leadership &nbsp;
-        <span style="color:oklch(72% 0.20 340)">■ Blue</span> = education
+        <span style="color:oklch(72% 0.20 27)">■ Red</span> = work experience &nbsp;
+        <span style="color:oklch(72% 0.20 310)">■ Purple</span> = projects &nbsp;
+        <span style="color:oklch(72% 0.20 55)">■ Gold</span> = awards &nbsp;
+        <span style="color:oklch(72% 0.20 145)">■ Green</span> = leadership &nbsp;
+        <span style="color:oklch(72% 0.20 254)">■ Blue</span> = education
       </p>
     </div>
   </div>
@@ -1023,9 +1031,9 @@ footer .footer-perf {
   <div class="tweak-row">
     <span class="tweak-label">Color Accent</span>
     <select class="tweak-select" id="tw-accent">
-      <option value="red">Red / Violet / Gold</option>
-      <option value="green">Green / Teal / Lime</option>
-      <option value="blue">Blue / Violet / Amber</option>
+      <option value="red">Red / Purple / Gold</option>
+      <option value="green">Green / Mint / Lime</option>
+      <option value="blue">Blue / Purple / Amber</option>
     </select>
   </div>
 </div>
@@ -1321,12 +1329,12 @@ const ENTRIES = [
 ];
 
 const ACCENT_PALETTES = {
-  cyan:  { experience: 27,  project: 290, award: 55,  leadership: 170, education: 340 },
-  green: { experience: 150, project: 170, award: 100, leadership: 130, education: 200 },
-  rose:  { experience: 340, project: 290, award: 50,  leadership: 20,  education: 310 },
+  red:   { experience: 27,  project: 310, award: 55,  leadership: 145, education: 254 },
+  green: { experience: 145, project: 175, award: 95,  leadership: 125, education: 160 },
+  blue:  { experience: 254, project: 315, award: 50,  leadership: 285, education: 268 },
 };
 
-let currentPalette = ACCENT_PALETTES.cyan;
+let currentPalette = ACCENT_PALETTES.red;
 
 function categoryHue(category) {
   return currentPalette[category] ?? currentPalette.experience;
@@ -1357,7 +1365,12 @@ function oklchToRgb(l, c, h) {
   ];
 }
 
-function categoryColor(category, l = 0.72, c = 0.20) {
+// One tone for every category-colored element — legend dots, grid numbers,
+// clue numbers, answer-key numbers — so they all render the same five colors.
+const CATEGORY_L = 0.72;
+const CATEGORY_C = 0.20;
+
+function categoryColor(category, l = CATEGORY_L, c = CATEGORY_C) {
   const [r, g, b] = oklchToRgb(l, c, categoryHue(category));
   return `rgb(${r},${g},${b})`;
 }
@@ -1608,7 +1621,7 @@ function renderCrossword() {
         label.className = 'cw-num';
         label.textContent = p.number;
         label.dataset.category = p.entry.category;
-        label.style.color = categoryColor(p.entry.category, 0.75, 0.16);
+        label.style.color = categoryColor(p.entry.category);
         startCell.appendChild(label);
       }
     }
@@ -1668,7 +1681,7 @@ function renderCrossword() {
 
 function recolorCrosswordNumbers() {
   document.querySelectorAll('.cw-num').forEach(el => {
-    el.style.color = categoryColor(el.dataset.category, 0.75, 0.16);
+    el.style.color = categoryColor(el.dataset.category);
   });
 }
 
@@ -1692,7 +1705,7 @@ function renderClues() {
     const numEl = document.createElement('span');
     numEl.className = 'clue-num';
     numEl.textContent = p.number;
-    numEl.style.color = categoryColor(p.entry.category, 0.75, 0.16);
+    numEl.style.color = categoryColor(p.entry.category);
 
     const textEl = document.createElement('span');
     textEl.className = 'clue-text';
@@ -1726,6 +1739,7 @@ function renderAnswerKey() {
     const numEl = document.createElement('span');
     numEl.className = 'answer-num';
     numEl.textContent = `${p.number}${p.dir === 'H' ? 'A' : 'D'}`;
+    numEl.style.color = categoryColor(p.entry.category);
 
     const wordEl = document.createElement('span');
     wordEl.className = 'answer-word';
@@ -1747,7 +1761,7 @@ function renderAnswerKey() {
 
 function renderLegend() {
   document.querySelectorAll('.legend-dot').forEach(dot => {
-    dot.style.background = categoryColor(dot.dataset.category, 0.72, 0.20);
+    dot.style.background = categoryColor(dot.dataset.category);
   });
 }
 
@@ -1760,7 +1774,7 @@ function openEntry(entry, placement) {
   document.getElementById('panel-die-id').textContent = placement
     ? `${placement.number}${placement.dir === 'H' ? ' ACROSS' : ' DOWN'} · ${entry.category.toUpperCase()}`
     : entry.category.toUpperCase();
-  document.getElementById('panel-die-id').style.color = categoryColor(entry.category, 0.75, 0.18);
+  document.getElementById('panel-die-id').style.color = categoryColor(entry.category);
   document.getElementById('panel-title').textContent = entry.title;
   document.getElementById('panel-subtitle').textContent = entry.subtitle;
   document.getElementById('panel-desc').textContent = entry.description;
@@ -1814,7 +1828,7 @@ document.addEventListener('keydown', e => {
    TWEAKS — ACCENT PALETTE
 ═══════════════════════════════════════════ */
 document.getElementById('tw-accent').addEventListener('change', e => {
-  currentPalette = ACCENT_PALETTES[e.target.value] || ACCENT_PALETTES.cyan;
+  currentPalette = ACCENT_PALETTES[e.target.value] || ACCENT_PALETTES.red;
   recolorCrosswordNumbers(); // avoid rebuilding the grid so in-progress typing isn't lost
   renderClues();
   renderAnswerKey();
@@ -1831,7 +1845,7 @@ document.getElementById('tw-accent').addEventListener('change', e => {
     document.getElementById('render-time').textContent = renderMs + 'ms';
     document.getElementById('system-stable').textContent = stable ? 'TRUE' : 'DEGRADED';
     document.getElementById('system-stable').style.color = stable
-      ? 'oklch(72% 0.18 160)'
+      ? 'oklch(72% 0.18 145)'
       : 'oklch(72% 0.18 55)';
   }
 
