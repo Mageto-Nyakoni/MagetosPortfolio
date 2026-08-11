@@ -21,11 +21,11 @@
   --text-secondary: oklch(60% 0.012 240);
   --text-mono:      oklch(70% 0.030 27);
 
-  --accent-cyan:    oklch(48% 0.22 27);
-  --accent-violet:  oklch(75% 0.22 290);
+  --accent-red:    oklch(48% 0.22 27);
+  --accent-violet:  oklch(56.261% 0.25905 288.87);
   --accent-gold:    oklch(78% 0.18 55);
   --accent-teal:    oklch(75% 0.22 170);
-  --accent-rose:    oklch(72% 0.20 340);
+  --accent-blue:    oklch(62.855% 0.20054 254.074);
 
   --line-subtle:    oklch(25% 0.015 260);
   --line-mid:       oklch(35% 0.018 260);
@@ -394,8 +394,8 @@ nav {
 }
 
 .panel-close:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  border-color: var(--accent-red);
+  color: var(--accent-red);
 }
 
 .panel-body {
@@ -451,7 +451,7 @@ nav {
 }
 
 .btn-primary {
-  background: var(--accent-cyan);
+  background: var(--accent-red);
   color: oklch(10% 0.012 260);
   border: none; padding: 10px 22px; border-radius: 4px;
   font-family: 'Space Grotesk', sans-serif;
@@ -550,8 +550,8 @@ nav {
 
 .hero-link:hover,
 .hero-link:focus-visible {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  border-color: var(--accent-red);
+  color: var(--accent-red);
   transform: translateY(-1px);
 }
 
@@ -610,7 +610,7 @@ nav {
 .about-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
-  color: var(--accent-cyan); letter-spacing: 0.15em;
+  color: var(--accent-red); letter-spacing: 0.15em;
   text-transform: uppercase; white-space: nowrap;
   padding-top: 4px; min-width: 120px;
 }
@@ -662,7 +662,7 @@ footer .footer-perf {
   transition: color 0.2s;
 }
 
-.footer-link:hover { color: var(--accent-cyan); }
+.footer-link:hover { color: var(--accent-red); }
 
 /* ═══════════════════════════════════════════
    TWEAKS PANEL
@@ -685,7 +685,7 @@ footer .footer-perf {
 .tweaks-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; font-weight: 500;
-  color: var(--accent-cyan); letter-spacing: 0.15em;
+  color: var(--accent-red); letter-spacing: 0.15em;
   text-transform: uppercase; margin-bottom: 4px;
 }
 
@@ -926,11 +926,11 @@ footer .footer-perf {
       </p>
       <p>
         Every word in this crossword is a real experience.
-        <span style="color:oklch(75% 0.22 27)">■ Cyan</span> = work experience &nbsp;
+        <span style="color:oklch(48% 0.22 27)">■ Red</span> = work experience &nbsp;
         <span style="color:oklch(75% 0.22 290)">■ Violet</span> = projects &nbsp;
         <span style="color:oklch(78% 0.18 55)">■ Gold</span> = awards &nbsp;
         <span style="color:oklch(75% 0.22 170)">■ Teal</span> = leadership &nbsp;
-        <span style="color:oklch(72% 0.20 340)">■ Rose</span> = education
+        <span style="color:oklch(72% 0.20 340)">■ Blue</span> = education
       </p>
     </div>
   </div>
@@ -1022,9 +1022,9 @@ footer .footer-perf {
   <div class="tweak-row">
     <span class="tweak-label">Color Accent</span>
     <select class="tweak-select" id="tw-accent">
-      <option value="cyan">Cyan / Violet / Gold</option>
+      <option value="red">Red / Violet / Gold</option>
       <option value="green">Green / Teal / Lime</option>
-      <option value="rose">Rose / Violet / Amber</option>
+      <option value="blue">Blue / Violet / Amber</option>
     </select>
   </div>
 </div>
