@@ -634,6 +634,19 @@ nav {
 
 .about-content p + p { margin-top: 14px; }
 
+.about-content a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-mid);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.about-content a:hover,
+.about-content a:focus-visible {
+  color: var(--accent-red);
+  border-bottom-color: var(--accent-red);
+}
+
 /* ═══════════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════════ */
@@ -871,8 +884,8 @@ footer .footer-perf {
       <h1 class="hero-name">Mageto Nyakoni</h1>
       <span class="hero-name-mono">SOFTWARE ENGINEER · SDET @ INFOSYS</span>
       <p class="hero-tagline">
-        Software engineer with experience across full-stack development, data engineering,
-        product management, and STEM leadership.
+        I build and test software. I've also done data engineering, product management,
+        and taught high schoolers to code. Mostly I just like problems.
       </p>
 
       <div class="stat-bar fade-up fade-up-2">
@@ -930,11 +943,13 @@ footer .footer-perf {
     <div class="about-label">about</div>
     <div class="about-content">
       <p>
-        Software engineer with strong foundations in Python, Java, C++, data analysis,
-        and systems design. Experienced across product management, data engineering, full-stack development and testing, and STEM education.
+        Most of my code is Python, Java, and C++. I like being close to the data, whether that's
+        the analysis, the pipelines, or the systems moving it around. Along the way I've done product
+        management, full-stack work and testing, and spent two years teaching AP Computer Science
+        to high schoolers.
       </p>
       <p>
-        Every word in this crossword is a real experience.
+        Every word in the crossword below is something I actually did.
         <span style="color:oklch(72% 0.20 27)">■ Red</span> = work experience &nbsp;
         <span style="color:oklch(72% 0.20 310)">■ Purple</span> = projects &nbsp;
         <span style="color:oklch(72% 0.20 55)">■ Gold</span> = awards &nbsp;
@@ -949,14 +964,22 @@ footer .footer-perf {
     <div class="about-label">the crossword</div>
     <div class="about-content">
       <p>
-        The grid below is built entirely from my own background - every answer is the name of a company, project, award,
-        or organization pulled straight from the timeline above. Nothing in it is generic filler; if it's in the grid, it actually happened.
+        There's a crossword here because I love puzzles. The NYT crossword and Wordle most mornings,
+        and a 1000-piece jigsaw on the table with my family when I'm home. Solving things, small ones
+        and large ones, has always been how I approach the world, and I'd rather pull you into that
+        than hand you a list of bullet points.
       </p>
       <p>
-        Click any clue to read the full story behind it, or click into a square and type - each letter you enter follows
-        its across or down word automatically. Stuck, or just want to skip ahead? Every solution is listed in the answer key
-        at the bottom of the page.
+        Every answer is real: companies I've worked for, projects I've built, awards I've won,
+        organizations I've been part of. Nothing in the grid is filler.
       </p>
+      <p>
+        Click a clue to read the story behind it, or click a square and start typing. Letters follow
+        whichever word you're in. One bit of advice, read
+        <a href="./uploads/resume.pdf" target="_blank" rel="noopener noreferrer">my resume</a> first,
+        it will help more than you'd think. And if you get stuck, the answer key is at the bottom.
+      </p>
+      <p>Good luck.</p>
       <p class="cta-hint">▶ CLICK A CLUE, OR CLICK A SQUARE AND START TYPING</p>
     </div>
   </div>
@@ -985,7 +1008,7 @@ footer .footer-perf {
   <div class="about-strip">
     <div class="about-label">answer key</div>
     <div class="about-content">
-      <p class="answer-key-note">Every solution, in case you get stuck (or just want to skip ahead).</p>
+      <p class="answer-key-note">All the answers, if you want them.</p>
       <div class="answer-grid" id="answer-grid"></div>
     </div>
   </div>
