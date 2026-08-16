@@ -187,6 +187,24 @@ nav {
   transition: background 0.2s, box-shadow 0.2s;
 }
 
+/* ── Grid fill-in: cells drop in on a diagonal wave when scrolled into view.
+      Delay per cell is set in renderCrossword; skipped under reduced motion. ── */
+.crossword-grid.cw-pending .cw-cell {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.crossword-grid.cw-fill-in .cw-cell {
+  opacity: 0;
+  animation: cellIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--cw-delay, 0ms);
+}
+
+@keyframes cellIn {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .cw-cell.highlight {
   background: oklch(24% 0.05 145);
   box-shadow: inset 0 0 0 1px var(--accent-green);
@@ -1606,6 +1624,8 @@ function renderCrossword() {
       cell.className = 'cw-cell';
       cell.style.gridColumn = (c - minC + 1);
       cell.style.gridRow = (r - minR + 1);
+      // Diagonal wave: cells on the same (row + col) band land together.
+      cell.style.setProperty('--cw-delay', `${((r - minR) + (c - minC)) * 22}ms`);
 
       const input = document.createElement('input');
       input.type = 'text';
@@ -1700,6 +1720,30 @@ function renderCrossword() {
       }
     });
   });
+
+  scheduleGridFillIn(gridEl);
+}
+
+/* Hold the cells hidden until the grid scrolls into view, then let the
+   per-cell delays run the diagonal wave. Anyone who has asked for reduced
+   motion just gets the finished grid. */
+function scheduleGridFillIn(gridEl) {
+  const reduced = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  const start = () => {
+    gridEl.classList.remove('cw-pending');
+    gridEl.classList.add('cw-fill-in');
+  };
+
+  gridEl.classList.add('cw-pending');
+
+  if (!('IntersectionObserver' in window)) { start(); return; }
+
+  new IntersectionObserver((entries, obs) => {
+    if (entries.some(e => e.isIntersecting)) { start(); obs.disconnect(); }
+  }, { threshold: 0.1 }).observe(gridEl);
 }
 
 function recolorCrosswordNumbers() {
